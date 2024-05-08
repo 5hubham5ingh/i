@@ -43,11 +43,14 @@ header {
 section {
   height: 100vh;
   width: 100vw;
-
+  display: inline-flex;
+  flex-direction: row;
+  overflow-x: scroll;
 
   .flexContainer {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    flex-shrink: 0;
     flex-direction: row;
     align-items: center;
     padding: 10% 10vw;
@@ -73,21 +76,12 @@ section {
 
 }
 
-
-#About {
-  background-color: black;
-}
-
-#Experience {
+body section:nth-child(odd) {
   background-color: white;
 }
 
-#Projects {
+body section:nth-child(even) {
   background-color: black;
-}
-
-#TechStack {
-  background-color: white;
 }
 
 ::-webkit-scrollbar {

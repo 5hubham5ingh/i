@@ -6,22 +6,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
   <link href="./style.css" rel="stylesheet">
+  <script src="./script.js" defer></script>
 </head>
 
 <body>
   <header>
     <img class="navbarLogo" src="./logo.jpeg" alt="logo">
     <nav>
+      <a href="#About">About</a>
       <a href="#Experience">Experience</a>
       <a href="#Projects">Projects</a>
-      <a href="#TechStack">Tech Stack</a>
+      <a href="#Libraries">Libraries</a>
       <a href="#Contact">Contact</a>
     </nav>
   </header>
   <section id="About">
-    <div class="flexContainer">
-      <img id="profilePicture" src="./logo.jpeg" alt="profile-picture">
-      <h1>about</h1>
+    <div class="flexContainer" id="0">
+      <img id="profilePicture" src="./profilePic.jpeg" alt="profile-picture">
+      <div class="infoContainer">
+        <h1>Shubham</h1>
+        <h1>Singh</h1>
+        <p> - Software Developer / Engineer.</p>
+      </div>
+      <a id="readMore" href="#1">
+        <img src="./more.svg" alt="Read more." />
+      </a>
+    </div>
+    <div class="flexContainer" id="1">
+      <div class="infoContainer">
+
+        <fieldset>
+          <legend> My coding journey </legend>
+          I've been coding since 2014. Started with C++ and thought it would conquer the world as it's the only
+          language that has it all. That never happened. Then I met JavaScript in sixth semester of my college.
+          Didn't thought much of it and yet now I'm writing client application, backend server application
+          and even executable scripts for Linux using QuickJs in JavaScript. <br>
+          So, now I truly believe JavaScript will be, and already is, the jack of all trade that I'd hoped C++ to
+          become.
+          As the infamous saying goes, "Everything that can be written in js, will be written in js."
+        </fieldset>
+
+        <fieldset>
+          <legend> My hobbies </legend>
+          Apart from tech, I'm always on a side quest of understanding something new that I
+          didn't before. This side quest has taken me to the realms of philosophy, psychology, and cognitive science, as
+          I believe there are only two real mysteries left in the world.
+          <br>First, the world itself and second is our own
+          mind, and I think we are much closer to solving the latter than the former.
+        </fieldset>
+
+
+      </div>
+      <div class="infoContainer">
+
+        <fieldset>
+          <legend> My education </legend>
+          I started as an average student; studying was boring until around seventh or eighth standard when I got an
+          awesome math teacher who showed how fun mathematics really is. After that, getting a good grip on math, other
+          subjects
+          started becoming interesting, mainly physics. It was fun because it gave answers to questions that I never
+          even
+          consciously articulated to myself but always had in the back of my mind. <br>
+          I thought of pursuing it for higher studies, but that field demands a "marathon effort" to actually get some
+          worthwhile results, which was unsuitable for my impatiently curious mind. Enter 'Computer Science and
+          programming in C++' in my eleventh standard. It was the perfect cocktail to satiate my ravenous curiosity,
+          which craved a creative outlet for the mind. Ever since those days, I'm hooked on the world of programming and
+          computer science.
+        </fieldset>
+
+
+
+      </div>
     </div>
   </section>
 
@@ -39,9 +94,17 @@
   <section id="Projects">
     Projects
   </section>
-  <section id="TechStack">
+  <section id="Libraries">
     TechStack
   </section>
+  <footer id="Contact">
+    <a href="https://x.com/5hubham_Singh">
+      <img src="./x_logo.svg" alt="X">
+    </a>
+    <a href="https://github.com/5hubham5ingh"">
+      <img  src="./github-mark-white.svg" alt="Github">
+    </a>
+  </footer>
 </body>
 
 </html>

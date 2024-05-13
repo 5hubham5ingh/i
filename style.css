@@ -1,5 +1,7 @@
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scroll-snap-stop: always;
 }
 
 body {
@@ -22,15 +24,16 @@ header {
   align-items: center;
 
   nav {
-    width: 55%;
+    width: 45%;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   .navbarLogo {
-    max-height: 70%;
-    max-width: 5%;
+    max-height: 100%;
+    max-width: 20%;
+    border-radius: 100%;
     width: auto;
     height: auto;
   }
@@ -38,28 +41,22 @@ header {
   a {
     text-decoration: none;
     color: white;
+    font-size: 1vw;
+    font-weight: bold;
+
   }
 
-  @media only screen and (max-width: 768px) {
-
-    nav {
-      display: none;
-    }
-  }
 }
 
-@media only screen and (max-width: 768px) {
+.sectionContainer {
 
-  header {
-    .navbarLogo {
-      max-height: 150%;
-      max-width: 150%;
-      margin-top: 3%;
-      border-radius: 100%;
-      width: auto;
-      height: auto;
-    }
-  }
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-align: start;
+  scroll-snap-type: y mandatory;
+  scroll-snap-stop: always;
 }
 
 section {
@@ -69,6 +66,9 @@ section {
   flex-direction: row;
   overflow-x: scroll;
   scroll-behavior: smooth;
+  scroll-snap-align: start;
+  scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
   position: relative;
   top: 0;
 
@@ -81,14 +81,14 @@ section {
     padding: 0;
     width: 100%;
     height: 100%;
-
+    scroll-snap-align: start;
 
     img {
       max-height: 60%;
       max-width: 60%;
     }
 
-    #readMore {
+    .readMore {
       position: absolute;
       right: 5%;
       bottom: 5%;
@@ -107,7 +107,7 @@ section {
       justify-content: center;
 
       h1 {
-        font-size: 5em;
+        font-size: 5vw;
         margin: 0;
         padding: 0;
       }
@@ -118,63 +118,22 @@ section {
 
       }
 
-
-
       fieldset {
         border: 1px solid grey;
         padding: 1em;
         margin: 1em 0;
         border-radius: 10px;
-        font-size: 1em;
+        font-size: 1.2vw;
       }
 
 
-
-    }
-  }
-
-  @media only screen and (max-width: 768px) {
-    .flexContainer {
-      flex-direction: column-reverse;
-      justify-content: space-evenly;
-      padding: 10% 0;
-      width: 100%;
-      height: 80%;
-
-      img {
-        max-height: 70%;
-        max-width: 70%;
-      }
-
-      .infoContainerHeading {
-        top: 0;
-      }
-
-      .infoContainer {
-        width: 80%;
-
-        h1 {
-          font-size: 50pt;
-        }
-
-        fieldset {
-          font-size: 0.85em;
-        }
+      li {
+        padding-bottom: 10%;
+        font-size: 1.2vw;
       }
 
 
     }
-  }
-
-  @media only screen and (max-width: 480px) {
-    .flexContainer {
-      .infoContainer {
-        fieldset {
-          font-size: 0.55em;
-        }
-      }
-    }
-
   }
 
 }
@@ -187,10 +146,12 @@ footer {
   height: 5%;
   width: 90%;
   padding: 1% 5%;
+  scroll-snap-align: end;
 
   a {
     width: 50px;
     height: 50px;
+
     img {
       max-height: 50px;
       max-width: 50px;
@@ -200,15 +161,89 @@ footer {
   }
 }
 
-body section:nth-child(odd) {
+
+/* Media query for when viewport is vertical */
+@media only screen and (orientation: portrait) {
+  header {
+    .navbarLogo {
+      max-height: 150%;
+      max-width: 150%;
+      margin-top: 3%;
+      border-radius: 100%;
+      width: auto;
+      height: auto;
+    }
+
+    nav {
+      display: none;
+    }
+  }
+
+  section {
+    .flexContainer {
+      flex-direction: column-reverse;
+      justify-content: space-around;
+      padding: 10% 0;
+      width: 100%;
+      height: 80%;
+
+
+      img {
+        max-height: 80%;
+        max-width: 90%;
+      }
+
+      .infoContainerHeading {
+        top: 0;
+      }
+
+      .infoContainer {
+        width: 80%;
+        height: 30%;
+
+        h1 {
+          font-size: 40pt;
+        }
+
+        fieldset {
+          font-size: 1.5vh;
+        }
+
+        li {
+          padding-bottom: 5%;
+          font-size: 3vw;
+        }
+      }
+    }
+  }
+
+  footer {
+    a {
+      width: 30px;
+      height: 30px;
+
+      img {
+        max-height: 30px;
+        max-width: 30px;
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+}
+
+
+
+body .sectionContainer:nth-child(odd) {
   background-color: white;
   color: black;
 }
 
-body section:nth-child(even) {
+body .sectionContainer:nth-child(even) {
   background-color: black;
   color: white;
 }
+
 
 ::-webkit-scrollbar {
   width: 0;

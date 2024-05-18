@@ -89,136 +89,158 @@
 
   <div class="sectionContainer" id="Experience">
     <section id="printInvoice">
-      <div class="flexContainer">
-        <h1>printInvoice pic</h1>
-        <h1>printInvoice intro</h1>
+      <div class="flexContainer" id="printInvoiceIntro">
+        <img src="canvas-flow.svg" alt="canvas flow diagram">
+        <div>
+          <h1>Invoice print generation.</h1>
+          <p>Design, edit, print and download Invoices as pdf or excel files.</p>
+        </div>
         <a class="readMore" href="#printInvoice-info">
-          <img src="./more-black.svg" alt="Read more." />
-        </a>
       </div>
-      <div class="flexContainer" id="printInvoice-info">
-        <img src="./invoiceUML.svg" alt="Read more." />
-        <ul class="infoContainer">
-          <li>
-            The process involves two choices: generating invoices with predefined designs or editing designs.
-          </li>
-          <li>
-            For the first option, users select a predefined design, and the system fetches this design from the
-            database.
-            It combines the design with invoice data, generates HTML, and allows the user to view or download the
-            invoice.
-          </li>
-          <li>
-            The second choice involves design editing. Users open a design editor, and a template design is created
-            using
-            default JSON. Users customize the design with real-time previews, save their changes as the new default JSON
-            in the database when satisfied.
-          </li>
-        </ul>
-      </div>
-    </section>
-    <section id="excelDataProcessing">
-      <div class="flexContainer">
-        <img src="./excelProcessing.gif" alt="">
-        <p>Streamlined Framework for Excel Data Processing: Validation, Categorization, and Storage</p>
+      <img src="./more-black.svg" alt="more information." />
+      </a>
+  </div>
+  <div class="flexContainer" id="printInvoice-info">
+    <img src="./invoiceUML.svg" alt="invoice module demo." />
+    <ul class="infoContainer">
+      <li>
+        The process involves two choices: generating invoices with predefined designs or editing designs.
+      </li>
+      <li>
+        For the first option, users select a predefined design, and the system fetches this design from the
+        database.
+        It combines the design with invoice data, generates HTML, and allows the user to view or download the
+        invoice.
+      </li>
+      <li>
+        The second choice involves design editing. Users open a design editor, and a template design is created
+        using
+        default JSON. Users customize the design with real-time previews, save their changes as the new default JSON
+        in the database when satisfied.
+      </li>
 
-        <a class="readMore" href="#excelDataProcessing-info">
-          <img src="./more-black.svg" alt="Read more." />
-        </a>
+      <a class="goBack" href="#printInvoiceIntro">
+        <img src="./more-black.svg" alt="more info." />
+      </a>
+    </ul>
+  </div>
+  </section>
+  <section id="excelDataProcessing">
+    <div class="flexContainer" id="excelDataProcessingIntro">
+      <img src="./excelProcessing.gif" alt="excel processing demo">
+      <div class="infoContainer">
+        <h1>Excel data processing</h1>
+        <p>Validation, Correction, Categorization, and Storage</p>
       </div>
-      <div class="flexContainer" id="excelDataProcessing-info">
-        <img src="./excel-data-processing.svg" alt="Read more." />
-        <ul class="infoContainer">
-          <li>
-            Two workers are used: Schema Validation Worker and Data Validation Worker.
-          </li>
-          <li>
-            The Data Validation Worker receives the file and data validation function. The flow: Excel file is split
-            into sheets, Schema Validation Worker checks them concurrently. Sheets then go for data validation based on
-            schema results.
-          </li>
-          <li>
-            After Data Validation, data is categorized as 'Valid Data' or 'Invalid Data.' Valid data is stored in the
-            database, while invalid data is returned to the client app for correction by the user. The corrected data
-            goes through
-            validation again.
-          </li>
-        </ul>
+      <a class="readMore" href="#excelDataProcessingInfo">
+        <img src="./more-black.svg" alt="Read more." />
+      </a>
+    </div>
+    <div class="flexContainer" id="excelDataProcessingInfo">
+      <img src="./excel-data-processing.svg" alt="excel data processing uml." />
+      <ul class="infoContainer">
+        <li>
+          Two workers are used: Schema Validation Worker and Data Validation Worker.
+        </li>
+        <li>
+          The Data Validation Worker receives the file and data validation function. The flow: Excel file is split
+          into sheets, Schema Validation Worker checks them concurrently. Sheets then go for data validation based on
+          schema results.
+        </li>
+        <li>
+          After Data Validation, data is categorized as 'Valid Data' or 'Invalid Data.' Valid data is stored in the
+          database, while invalid data is returned to the client app for correction by the user. The corrected data
+          goes through
+          validation again.
+        </li>
 
-      </div>
-    </section>
-    <section id="clientDataBackupManagement">
-      <div class="flexContainer">
-        <img src="./DbBackup.gif" alt="">
-        <div class="infoContainer">
-          <h1>User data backup & restore module.</h1>
-          <p>
-            Database backup system for the multi-tenant architecture enables each tenant to create, list, download,
-            delete, and restore their own data backups. </p>
-        </div>
-        <a class="readMore" href="#dbBackup-info">
+        <a class="goBack" href="#excelDataProcessingIntro">
           <img src="./more-black.svg" alt="Read more." />
         </a>
+      </ul>
+
+    </div>
+  </section>
+  <section id="clientDataBackupManagement">
+    <div class="flexContainer" id="dbBackupIntro">
+      <img src="./DbBackup.gif" alt="database backup demo">
+      <div class="infoContainer">
+        <h1>User data backup & restore.</h1>
+        <p>
+          Database backup system for the multi-tenant architecture enables each tenant to create, list, download,
+          delete, and restore their own data backups. </p>
       </div>
-      <div class="flexContainer" id="dbBackup-info">
-        <img src="./dbBackup.svg" alt="Read more." />
-        <ul class="infoContainer">
-          <li> Tenants can generate backups, view all backups, download individual or
-            all backups in ZIP format, and remove obsolete backups.
-          </li>
-          <li>The restore process includes safeguards by creating
-            temporary backups to prevent data loss.
-          </li>
-          <li>This robust system ensures data integrity, security, and
-            accessibility for each tenant.
-          </li>
-        </ul>
-      </div>
-    </section>
-    <section id="jwtSessionManagement">
-      <div class="flexContainer">
-        <img src="./jwt-session.svg" alt="">
-        <div class="infoContainer">
-          <h1>User session management</h1>
-          <p>
-            JWT authentication system for user authentication within the application.</p>
-        </div>
-        <a class="readMore" href="#jwtSessionManagement">
+      <a class="readMore" href="#dbBackupInfo">
+        <img src="./more-black.svg" alt="Read more." />
+      </a>
+    </div>
+    <div class="flexContainer" id="dbBackupInfo">
+      <img src="./dbBackup.svg" alt="database backup uml." />
+      <ul class="infoContainer">
+        <li> Tenants can generate backups, view all backups, download individual or
+          all backups in ZIP format, and remove obsolete backups.
+        </li>
+        <li>The restore process includes safeguards by creating
+          temporary backups to prevent data loss.
+        </li>
+        <li>This robust system ensures data integrity, security, and
+          accessibility for each tenant.
+        </li>
+        <a class="goBack" href="#dbBackupIntro">
           <img src="./more-black.svg" alt="Read more." />
         </a>
+      </ul>
+    </div>
+  </section>
+  <section id="jwtSessionManagement">
+    <div class="flexContainer" id="jwtIntro">
+      <img src="./jwt-session.svg" alt="jwt session demo">
+      <div class="infoContainer">
+        <h1>User session management</h1>
+        <p>
+          JWT authentication system for user authentication within the application.</p>
       </div>
-      <div class="flexContainer" id="jwtSessionManagement">
-        <img src="./jwt-session.svg" alt="Read more." />
-        <ul class="infoContainer">
-          <li>The JWT session management system authenticates users by issuing a JWT token with a fixed expiration time,
-            which is stored in a cookie.</li>
-          <li> If the user opts for "keep me logged in," a refresh token is also generated and stored securely in local
-            storage.</li>
-          <li>When the JWT token expires, the client can use the refresh token to request a new JWT token.</li>
-          <li>On logout, the JWT token is cleared from the cookie, and any refresh token is removed from local storage.
-          </li>
-        </ul>
-      </div>
-    </section>
+      <a class="readMore" href="#jwtSessionManagementInfo">
+        <img src="./more-black.svg" alt="jwt session management." />
+      </a>
+    </div>
+    <div class="flexContainer" id="jwtSessionManagementInfo">
+      <img src="./jwt-session.svg" alt="Read more." />
+      <ul class="infoContainer">
+        <li>The JWT session management system authenticates users by issuing a JWT token with a fixed expiration time,
+          which is stored in a cookie.</li>
+        <li> If the user opts for "keep me logged in," a refresh token is also generated and stored securely in local
+          storage.</li>
+        <li>When the JWT token expires, the client can use the refresh token to request a new JWT token.</li>
+        <li>On logout, the JWT token is cleared from the cookie, and any refresh token is removed from local storage.
+        </li>
+
+        <a class="goBack" href="#jwtIntro">
+          <img src="./more-black.svg" alt="Read more." />
+        </a>
+      </ul>
+
+    </div>
+  </section>
   </div>
 
 
   <div class="sectionContainer" id="Projects">
     <section id="Workspace">
-      <div class="flexContainer">
-        <img src="./jwt-session.svg" alt="">
+      <div class="flexContainer" id="workspaceIntro">
+        <img src="./jwt-session.svg" alt="workspace demo">
         <div class="infoContainer">
           <h1>Workspace</h1>
           <p>
             A minimal yet production ready collaborative task-manager.
           </p>
         </div>
-        <a class="readMore" href="#workspace-info">
-          <img src="./more-black.svg" alt="Read more." />
+        <a class="readMore" href="#workspaceInfo">
+          <img src="./more.svg" alt="Read more." />
         </a>
       </div>
-      <div class="flexContainer" id="workspace-info">
-        <img src="./workspace-arch.svg" alt="Read more." />
+      <div class="flexContainer" id="workspaceInfo">
+        <img src="./workspace-arch.svg" alt="workspace architecture." />
         <ul class="infoContainer">
           <li> A collaborative task manager that allows users to create workspaces and invite team members to
             collaborate. </li>
@@ -228,38 +250,46 @@
           <li>Similarly, tasks can only be deleted by their creators, while other team members can mark them as complete
             once finished.</li>
           <li>This setup ensures clear accountability and efficient task management within the team.</li>
+
+          <a class="goBack" href="#workspaceIntro">
+            <img src="./more.svg" alt="Read more." />
+          </a>
         </ul>
       </div>
 
     </section>
     <section id="Writhub">
-      <div class="flexContainer">
-        <img src="./jwt-session.svg" alt="">
+      <div class="flexContainer" id="writhubIntro">
+        <img src="./jwt-session.svg" alt="writhub demo">
         <div class="infoContainer">
           <h1>Writhub</h1>
           <p>
             A social media exclusively for writers to create, contribute, collaborate and share written contents.
           </p>
         </div>
-        <a class="readMore" href="#writhub-info">
-          <img src="./more-black.svg" alt="Read more." />
+        <a class="readMore" href="#writhubInfo">
+          <img src="./more.svg" alt="Read more." />
         </a>
       </div>
-      <div class="flexContainer" id="writhub-info">
-        <img src="./writhub-flow.svg" alt="Read more." />
+      <div class="flexContainer" id="writhubInfo">
+        <img src="./writhub-flow.svg" alt="writhub flow diagram." />
         <ul class="infoContainer">
           <li> Designed exclusively for writers and readers to engage with written content.</li>
           <li> The platform supports text posts only, enabling users to comment, like, promote, and share posts.</li>
-          <li>. It emphasizes community-driven collaboration and contribution, fostering interaction among literary
+          <li> It emphasizes community-driven collaboration and contribution, fostering interaction among literary
             enthusiasts. </li>
           <li>Key features include a text-centric interface, user engagement tools, and content sharing capabilities.
           </li>
+
+          <a class="goBack" href="#writhubIntro">
+            <img src="./more.svg" alt="Read more." />
+          </a>
         </ul>
       </div>
     </section>
     <section id="Canvas">
-      <div class="flexContainer">
-        <img src="./jwt-session.svg" alt="">
+      <div class="flexContainer" id="canvasIntro">
+        <img src="./jwt-session.svg" alt="canvas demo">
         <div class="infoContainer">
           <h1>Canvas</h1>
           <p>
@@ -267,16 +297,20 @@
           </p>
         </div>
         <a class="readMore" href="#canvasInfo">
-          <img src="./more-black.svg" alt="Read more." />
+          <img src="./more.svg" alt="Read more." />
         </a>
       </div>
       <div class="flexContainer" id="canvasInfo">
-        <img src="./jwt-session.svg" alt="Read more." />
+        <img src="./canvas-flow.svg" alt="canvas info." />
         <ul class="infoContainer">
           <li>The web application enables users to design HTML pages with a drag-and-drop interface and export them as
             responsive HTML, high-quality PDFs, or customizable Excel files.</li>
           <li> It includes a data visualization feature for creating interactive charts and graphs. </li>
           <li>Additionally, the application supports offline functionality for uninterrupted project work.</li>
+
+          <a class="goBack" href="#canvasIntro">
+            <img src="./more.svg" alt="Read more." />
+          </a>
         </ul>
       </div>
 

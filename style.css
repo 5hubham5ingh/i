@@ -99,6 +99,14 @@ section {
       }
     }
 
+    .goBack {
+      position: relative;
+      bottom: -10%;
+      transform: rotate(180deg);
+      scale: 1.5;
+      right: 10vw;
+    }
+
     .infoContainer {
       height: 90%;
       width: 40%;
@@ -115,7 +123,6 @@ section {
       p {
         font-size: 1em;
         font-style: italic;
-
       }
 
       fieldset {
@@ -131,8 +138,6 @@ section {
         padding-bottom: 10%;
         font-size: 1.2vw;
       }
-
-
     }
   }
 

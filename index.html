@@ -11,7 +11,7 @@
 
 <body>
   <header>
-    <img class="navbarLogo" src="./logo.jpeg" alt="logo">
+    <img class="navbarLogo" src="./public/logo.jpeg" alt="logo">
     <nav>
       <a href="#About">About</a>
       <a href="#Experience">Experience</a>
@@ -24,14 +24,14 @@
   <div class="sectionContainer">
     <section id="About">
       <div class="flexContainer" id="intro">
-        <img id="profilePicture" src="./profilePic.jpeg" alt="profile-picture">
+        <img id="profilePicture" src="./public/profilePic.jpeg" alt="profile-picture">
         <div class="infoContainer">
           <h1>Shubham</h1>
           <h1>Singh</h1>
           <p> - Software Developer / Engineer.</p>
         </div>
         <a class="readMore" href="#info">
-          <img src="./more.svg" alt="Read more." />
+          <img src="./public/more.svg" alt="Read more." />
         </a>
       </div>
       <div class="flexContainer" id="info">
@@ -89,17 +89,17 @@
   <div class="sectionContainer" id="Experience">
     <section id="printInvoice">
       <div class="flexContainer" id="printInvoiceIntro">
-        <img src="./invoiceDemo.png" alt="canvas flow diagram" />
+        <img src="./public/invoiceDemo.png" alt="canvas flow diagram" />
         <div class='infoContainer'>
           <h1>Invoice print generation.</h1>
           <p>Design, edit, print and download Invoices as pdf or excel files.</p>
         </div>
         <a class="readMore" href="#printInvoice-info">
-          <img src="./more-black.svg" alt="more information." />
+          <img src="./public/more-black.svg" alt="more information." />
         </a>
       </div>
       <div class="flexContainer" id="printInvoice-info">
-        <img src="./invoiceUML.svg" alt="invoice module demo." />
+        <img src="./public/invoiceUML.svg" alt="invoice module demo." />
         <ul class="infoContainer">
           <li>
             The process involves two choices: generating invoices with predefined designs or editing designs.
@@ -117,24 +117,24 @@
             in the database when satisfied.
           </li>
           <a class="goBack" href="#printInvoiceIntro">
-            <img src="./more-black.svg" alt="more info." />
+            <img src="./public/more-black.svg" alt="more info." />
           </a>
         </ul>
       </div>
     </section>
     <section id="excelDataProcessing">
       <div class="flexContainer" id="excelDataProcessingIntro">
-        <img src="./excelProcessing.gif" alt="excel processing demo" />
+        <img src="./public/excelProcessing.gif" alt="excel processing demo" />
         <div class="infoContainer">
           <h1>Excel data processing</h1>
           <p>Validation, Correction, Categorization, and Storage</p>
         </div>
         <a class="readMore" href="#excelDataProcessingInfo">
-          <img src="./more-black.svg" alt="Read more." />
+          <img src="./public/more-black.svg" alt="Read more." />
         </a>
       </div>
       <div class="flexContainer" id="excelDataProcessingInfo">
-        <img src="./excel-data-processing.svg" alt="excel data processing uml." />
+        <img src="./public/excel-data-processing.svg" alt="excel data processing uml." />
         <ul class="infoContainer">
           <li>
             Two workers are used: Schema Validation Worker and Data Validation Worker.
@@ -152,7 +152,7 @@
           </li>
 
           <a class="goBack" href="#excelDataProcessingIntro">
-            <img src="./more-black.svg" alt="Read more." />
+            <img src="./public/more-black.svg" alt="Read more." />
           </a>
         </ul>
 
@@ -160,7 +160,7 @@
     </section>
     <section id="clientDataBackupManagement">
       <div class="flexContainer" id="dbBackupIntro">
-        <img src="./DbBackup.gif" alt="database backup demo" id="dbBackupDemoScaleUp" />
+        <img src="./public/DbBackup.gif" alt="database backup demo" id="dbBackupDemoScaleUp" />
         <div class="infoContainer">
           <h1>User data backup & restore.</h1>
           <p>
@@ -168,11 +168,11 @@
             delete, and restore their own data backups. </p>
         </div>
         <a class="readMore" href="#dbBackupInfo">
-          <img src="./more-black.svg" alt="Read more." />
+          <img src="./public/more-black.svg" alt="Read more." />
         </a>
       </div>
       <div class="flexContainer" id="dbBackupInfo">
-        <img src="./dbBackup.svg" alt="database backup uml." id="dbBackupScaleDown" />
+        <img src="./public/dbBackup.svg" alt="database backup uml." id="dbBackupScaleDown" />
         <ul class="infoContainer">
           <li> Tenants can generate backups, view all backups, download individual or
             all backups in ZIP format, and remove obsolete backups.
@@ -184,25 +184,25 @@
             accessibility for each tenant.
           </li>
           <a class="goBack" href="#dbBackupIntro">
-            <img src="./more-black.svg" alt="Read more." />
+            <img src="./public/more-black.svg" alt="Read more." />
           </a>
         </ul>
       </div>
     </section>
     <section id="jwtSessionManagement">
       <div class="flexContainer" id="jwtIntro">
-        <img src="./jwt-session.svg" alt="jwt session demo" />
+        <img src="./public/jwt-session.svg" alt="jwt session demo" />
         <div class="infoContainer">
           <h1>User session management</h1>
           <p>
             JWT authentication system for user authentication within the application.</p>
         </div>
         <a class="readMore" href="#jwtSessionManagementInfo">
-          <img src="./more-black.svg" alt="jwt session management." />
+          <img src="./public/more-black.svg" alt="jwt session management." />
         </a>
       </div>
       <div class="flexContainer" id="jwtSessionManagementInfo">
-        <img src="./jwt-session.svg" alt="Read more." />
+        <img src="./public/jwt-session.svg" alt="Read more." />
         <ul class="infoContainer">
           <li>The JWT session management system authenticates users by issuing a JWT token with a fixed expiration time,
             which is stored in a cookie.</li>
@@ -213,7 +213,7 @@
           </li>
 
           <a class="goBack" href="#jwtIntro">
-            <img src="./more-black.svg" alt="Read more." />
+            <img src="./public/more-black.svg" alt="Read more." />
           </a>
         </ul>
 
@@ -224,7 +224,7 @@
   <div class="sectionContainer" id="Projects">
     <section id="Workspace">
       <div class="flexContainer" id="workspaceIntro">
-        <img src="./workspaceDemo.gif" alt="workspace demo" />
+        <img src="./public/workspaceDemo.gif" alt="workspace demo" />
         <div class="infoContainer">
           <h1>Workspace</h1>
           <p>
@@ -233,11 +233,11 @@
           </p>
         </div>
         <a class="readMore" href="#workspaceInfo">
-          <img src="./more.svg" alt="Read more." />
+          <img src="./public/more.svg" alt="Read more." />
         </a>
       </div>
       <div class="flexContainer" id="workspaceInfo">
-        <img src="./workspace-arch.svg" alt="workspace architecture." />
+        <img src="./public/workspace-arch.svg" alt="workspace architecture." />
         <ul class="infoContainer">
           <li> A collaborative task manager that allows users to create workspaces and invite team members to
             collaborate. </li>
@@ -249,7 +249,7 @@
           <li>This setup ensures clear accountability and efficient task management within the team.</li>
 
           <a class="goBack" href="#workspaceIntro">
-            <img src="./more.svg" alt="Read more." />
+            <img src="./public/more.svg" alt="Read more." />
           </a>
         </ul>
       </div>
@@ -257,7 +257,7 @@
     </section>
     <section id="Writhub">
       <div class="flexContainer" id="writhubIntro">
-        <img src="./writhubDemo.gif" alt="writhub demo" />
+        <img src="./public/writhubDemo.gif" alt="writhub demo" />
         <div class="infoContainer">
           <h1>Writhub</h1>
           <p>
@@ -266,11 +266,11 @@
           </p>
         </div>
         <a class="readMore" href="#writhubInfo">
-          <img src="./more.svg" alt="Read more." />
+          <img src="./public/more.svg" alt="Read more." />
         </a>
       </div>
       <div class="flexContainer" id="writhubInfo">
-        <img src="./writhub-flow.svg" alt="writhub flow diagram." />
+        <img src="./public/writhub-flow.svg" alt="writhub flow diagram." />
         <ul class="infoContainer">
           <li> Designed exclusively for writers and readers to engage with written content.</li>
           <li> The platform supports text posts only, enabling users to comment, like, promote, and share posts.</li>
@@ -280,7 +280,7 @@
           </li>
 
           <a class="goBack" href="#writhubIntro">
-            <img src="./more.svg" alt="Read more." />
+            <img src="./public/more.svg" alt="Read more." />
           </a>
         </ul>
       </div>
@@ -297,11 +297,11 @@
           </p>
         </div>
         <a class="readMore" href="#canvasInfo">
-          <img src="./more.svg" alt="Read more." />
+          <img src="./public/more.svg" alt="Read more." />
         </a>
       </div>
       <div class="flexContainer" id="canvasInfo">
-        <img src="./canvas-flow.svg" alt="canvas info." />
+        <img src="./public/canvas-flow.svg" alt="canvas info." />
         <ul class="infoContainer">
           <li>The web application enables users to design HTML pages with a drag-and-drop interface and export them as
             responsive HTML, high-quality PDFs, or customizable Excel files.</li>
@@ -309,7 +309,7 @@
           <li>Additionally, the application supports offline functionality for uninterrupted project work.</li>
 
           <a class="goBack" href="#canvasIntro">
-            <img src="./more.svg" alt="Read more." />
+            <img src="./public/more.svg" alt="Read more." />
           </a>
         </ul>
       </div>
@@ -320,87 +320,83 @@
   <div id="Libraries">
 
     <button type="button">
-      <img src="./reactLogo.png" alt="">
+      <img src="./public/reactLogo.png" alt="">
       <h1>React</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/redux.svg" alt="">
       <h1>Redux</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/arjs.png" alt="">
       <h1>ActiveReportJs</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
-      <h1>Formik</h1>
+      <img src="./public/formik.png" alt="">
+      <h1>Formik + Yup</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
-      <h1>Yup</h1>
-    </button>
-    <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/nodejs.png" alt="">
       <h1>NodeJs</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/expressjs.png" alt="">
       <h1>ExpressJs</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/ts.png" alt="">
       <h1>Typescript</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
-      <h1>Postgres</h1>
+      <img src="./public/pqsql.png" alt="">
+      <h1>PostgresSql</h1>
     </button>
 
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/redis.png" alt="">
       <h1>Redis</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/mongoDb.png" alt="">
       <h1>MongoDb</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/mongoose.png" alt="">
       <h1>Mongoose</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/sequelise.png" alt="">
       <h1>Sequelize</h1>
     </button>
 
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/html.png" alt="">
       <h1>HTML</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/css.png" alt="">
       <h1>CSS</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/linux.png" alt="">
       <h1>Linux</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/bash.png" alt="">
       <h1>Bash</h1>
     </button>
     <button type="button">
-      <img src="./more.svg" alt="">
+      <img src="./public/nix.png" alt="">
       <h1>Nix-ops</h1>
     </button>
   </div>
 
   <footer id="Contact">
     <a href="https://x.com/5hubham_Singh">
-      <img src="./x_logo.svg" alt="X">
+      <img src="./public/x_logo.svg" alt="X">
     </a>
     <a href="https://github.com/5hubham5ingh"">
-      <img  src=" ./github-mark-white.svg" alt="Github">
+      <img  src=" ./public/github-mark-white.svg" alt="Github">
     </a>
   </footer>
 </body>

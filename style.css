@@ -168,7 +168,8 @@ section {
   flex-wrap: wrap;
   padding: 10vh;
 
-  button {
+  a {
+    text-decoration: none;
     margin: 20px;
     padding: 5px 10px;
     background-color: black;

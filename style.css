@@ -267,7 +267,7 @@ footer {
         height: 30%;
 
         h1 {
-          font-size: 40pt;
+          font-size: 30pt;
         }
 
         fieldset {
@@ -283,7 +283,6 @@ footer {
   }
 
   #Libraries {
-
     a {
       margin: 10px;
       padding: 2.5px 5px;
@@ -291,6 +290,7 @@ footer {
 
       h1 {
         margin: 0 5px;
+        font-size: 10pt;
       }
 
       img {

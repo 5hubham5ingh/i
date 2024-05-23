@@ -222,7 +222,6 @@ footer {
 /* Media query for when viewport is vertical */
 @media only screen and (orientation: portrait) {
   header {
-    background-color: transparent;
 
     .navbarLogo {
       max-height: 150%;
@@ -234,7 +233,15 @@ footer {
     }
 
     nav {
-      display: none;
+      width: 85%;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      flex-wrap: wrap;
+
+      a {
+        font-size: 1.5vh;
+      }
     }
   }
 

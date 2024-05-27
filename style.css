@@ -183,13 +183,14 @@ section {
 
     h1 {
       margin: 0 10px;
+      font-size: 10pt;
     }
 
     img {
-      height: 50px;
+      height: 30px;
       background-color: white;
       margin: 5px;
-      width: 50px;
+      width: 30px;
       border-radius: 100%;
     }
   }

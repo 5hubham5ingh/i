@@ -25,10 +25,10 @@ const wait = async (milliseconds) => {
 
 const showSnackbar = async () => {
   const snackbar = document.getElementById("snackbar");
-  await wait(7000)
+  //  await wait(7000)
   snackbar.className = "show";
   await wait(7000);
-  snackbar.className = snackbar.className.replace("show", "");
+  return snackbar.className = snackbar.className.replace("show", "");
 };
 
 window.onload = () => {

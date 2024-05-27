@@ -17,3 +17,20 @@
 //         }
 //     }));
 // });
+
+
+const wait = async (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
+
+const showSnackbar = async () => {
+  const snackbar = document.getElementById("snackbar");
+  await wait(7000)
+  snackbar.className = "show";
+  await wait(7000);
+  snackbar.className = snackbar.className.replace("show", "");
+};
+
+window.onload = () => {
+  showSnackbar();
+};

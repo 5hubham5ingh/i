@@ -363,9 +363,57 @@ body .sectionContainer:nth-child(even) {
     border: 1px solid white;
     border-radius: 20%;
   }
+
+  button {
+    background-color: black;
+    margin: 15px 7px;
+    padding: 4px 7px;
+    color: white;
+    border: 1px solid white;
+    border-radius: 20%;
+  }
 }
 
 #snackbar.show {
+  visibility: visible;
+}
+
+#fullscreen {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+
+  a {
+    text-decoration: none;
+    margin: 10px 5px;
+    padding: 2px 5px;
+    color: white;
+    border: 1px solid white;
+    border-radius: 20%;
+  }
+
+  button {
+    background-color: black;
+    margin: 10px 5px;
+    padding: 2px 5px;
+    color: white;
+    border: 1px solid white;
+    border-radius: 20%;
+  }
+}
+
+#fullscreen.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s 7s, fadeout 0.5s 14s;
   animation: fadein 0.5s 7s, fadeout 0.5s 14s;
@@ -382,19 +430,6 @@ body .sectionContainer:nth-child(even) {
     opacity: 1;
   }
 }
-
-@keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-
-  to {
-    bottom: 0;
-    opacity: 0;
-  }
-}
-
 
 
 ::-webkit-scrollbar {

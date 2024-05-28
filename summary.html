@@ -4,69 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Typing Animation</title>
+  <title>Shubham Singh</title>
+  <script src="./summary.js" defer></script>
   <style>
+    * {
+      background-color: lightgray;
+      border-color: black;
+      border-width: 1px;
+      border-radius: 10px;
+      overflow: auto;
+    }
+
     #query {
       position: absolute;
-      bottom: 2%;
+      bottom: 1%;
       right: 2%;
+      min-width: 70vh;
+    }
+
+    #response {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    button {
+      padding: 5px 7px;
+      margin: 5px;
+      background-color: silver;
     }
   </style>
 </head>
 
 <body>
   <fieldset>
-    <legend>Sumarising...</legend>
-    <div id="text"></div>
+    <legend id="responseLegend">Summary</legend>
+    <div id="response"></div>
   </fieldset>
   <fieldset id="query">
     <legend>@User29306</legend>
     This is an HTML document representing a portfolio website. Please analyze it and generate a brief summary.
   </fieldset>
-  <script>
-    const text = `Based on the HTML content provided, this portfolio website belongs to Shubham Singh, a software developer/engineer. Here's a brief summary about him:
-
-  Coding Journey: Shubham has been coding since 2014, starting with C++. He later discovered JavaScript and now believes it will become the "jack of all trades" language, capable of handling client applications, back-end server applications, and even executable scripts for Linux.
-  
-  Hobbies: Apart from technology, Shubham is interested in understanding new concepts in philosophy, psychology, and cognitive science, believing that the two real mysteries left in the world are the world itself and the human mind.
-  
-  Education: Shubham developed an interest in mathematics and physics at an early age. He initially thought of pursuing physics but found computer science and programming in C++ to be the perfect blend of creativity and problem-solving to satisfy his curiosity.
-  
-  Work Experience: The portfolio showcases several projects and work experiences, including:
-  
-  Invoice print generation system for designing, editing, printing, and downloading invoices as PDF or Excel files.
-  Excel data processing system for validation, correction, categorization, and storage of data.
-  User data backup and restore system for a multi-tenant architecture.
-  JWT-based user session management system for user authentication.
-  
-  Projects: Some of the highlighted projects include:
-  
-  Workspace: A collaborative task manager for teams to create workspaces, assign tasks, and track progress.
-  Writhub: A social media platform exclusively for writers to create, collaborate, and share written content.
-  Canvas: A designer app for creating basic HTML pages and exporting them as HTML, PDF, or Excel files.
-  
-  Tech Stack: The portfolio mentions various technologies and libraries that Shubham has worked with, such as React, Redux, Node.js, Express.js, TypeScript, PostgreSQL, Redis, MongoDB, Mongoose, Sequelize, HTML, CSS, Linux, Bash, and Nix.
-  
-  Contact: The website provides links to Shubham's profiles on X (formerly Twitter) and GitHub for potential contact or collaboration.
-  
-  Overall, the portfolio presents Shubham Singh as a skilled software developer with experience in a wide range of technologies, projects, and domains, including web development, data processing, and authentication systems.`;
-
-    const textContainer = document.getElementById('text');
-    let index = 0;
-
-    function typeText() {
-      if (text[index] === '\n') {
-        textContainer.innerHTML += '<br>'; // Add line break
-      } else {
-        textContainer.innerHTML += text[index];
-      }
-      index++;
-      if (index < text.length) {
-        setTimeout(typeText, Math.random() * 100); // Adjust typing speed here
-      }
-    }
-    typeText();
-  </script>
 </body>
 
 </html>

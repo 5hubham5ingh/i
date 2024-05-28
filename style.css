@@ -326,6 +326,9 @@ footer {
   }
 }
 
+#jwtUml {
+  background: black;
+}
 
 
 body .sectionContainer:nth-child(odd) {

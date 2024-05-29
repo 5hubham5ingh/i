@@ -220,7 +220,6 @@ footer {
 }
 
 
-/* Media query for when viewport is vertical */
 @media only screen and (orientation: portrait) {
   header {
 
@@ -264,6 +263,18 @@ footer {
 
         max-height: 80%;
         max-width: 90%;
+      }
+
+      .goBack {
+        position: relative;
+        bottom: -200%;
+        transform: rotate(180deg);
+        scale: 1.5;
+        right: 20vw;
+
+        img {
+          border: 0;
+        }
       }
 
       .infoContainerHeading {
@@ -341,7 +352,6 @@ body .sectionContainer:nth-child(even) {
   color: white;
 }
 
-/* Basic styling for the snackbar */
 #snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -380,60 +390,6 @@ body .sectionContainer:nth-child(even) {
 #snackbar.show {
   visibility: visible;
 }
-
-#fullscreen {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: black;
-  color: white;
-  text-align: center;
-  border: 2px solid white;
-  border-radius: 20px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 17px;
-
-  a {
-    text-decoration: none;
-    margin: 10px 5px;
-    padding: 2px 5px;
-    color: white;
-    border: 1px solid white;
-    border-radius: 20%;
-  }
-
-  button {
-    background-color: black;
-    margin: 10px 5px;
-    padding: 2px 5px;
-    color: white;
-    border: 1px solid white;
-    border-radius: 20%;
-  }
-}
-
-#fullscreen.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s 7s, fadeout 0.5s 14s;
-  animation: fadein 0.5s 7s, fadeout 0.5s 14s;
-}
-
-@keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-
 
 ::-webkit-scrollbar {
   width: 0;

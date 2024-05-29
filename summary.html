@@ -20,11 +20,20 @@
       bottom: 1%;
       right: 2%;
       max-width: 70vw;
+
+      @media only screen and (orientation: portrait) {
+        max-width: 92vw;
+        right: 1%;
+      }
     }
 
     #response {
       max-height: 70vh;
       overflow-y: auto;
+
+      @media only screen and (orientation: portrait) {
+        max-height: 60vh;
+      }
     }
 
     button {

@@ -20,14 +20,14 @@
     }
 
     #query {
-      position: absolute;
-      bottom: 1%;
-      right: 2%;
+      position: relative;
+      margin-left: auto;
       max-width: 70vw;
+      background-color: silver;
 
       @media only screen and (orientation: portrait) {
         max-width: 92vw;
-        right: 1%;
+        left: 5vw;
       }
     }
 
@@ -49,13 +49,13 @@
 </head>
 
 <body>
-  <fieldset>
-    <legend id="responseLegend">Summary</legend>
-    <div id="response"></div>
-  </fieldset>
   <fieldset id="query">
     <legend>@User29306</legend>
     This is an HTML document representing a portfolio website. Please analyze it and generate a brief summary.
+  </fieldset>
+  <fieldset>
+    <legend id="responseLegend">Summary</legend>
+    <div id="response"></div>
   </fieldset>
 </body>
 

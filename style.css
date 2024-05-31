@@ -255,8 +255,8 @@ footer {
 
 
       img {
-        max-height: 80%;
-        max-width: 90%;
+        max-height: 50%;
+        max-width: 60%;
       }
 
       #canvasUml {

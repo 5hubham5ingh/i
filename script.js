@@ -23,3 +23,40 @@ const showFullScreen = () => {
   }
 }
 showSnackbar();
+
+document.addEventListener("DOMContentLoaded", () => {
+  let options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.5,
+  }
+
+  const getAnchorByHref = (hrefValue) => {
+    return document.querySelector(`nav a[href="${hrefValue}"]`);
+  }
+
+  const sections = ["Projects", "Libraries", "Contact", "Experience", "About"];
+
+  sections.forEach(section => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          sections.forEach(sec => {
+            const anchor = getAnchorByHref(`#${sec}`);
+            if (sec === section) {
+              anchor.classList.add("focus");
+            } else {
+              anchor.classList.remove("focus");
+            }
+          });
+        }
+      });
+    }, options);
+
+    const element = document.getElementById(section);
+    if (element) {
+      observer.observe(element);
+    }
+  });
+});
+

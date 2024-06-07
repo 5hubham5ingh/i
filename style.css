@@ -395,6 +395,10 @@ body .sectionContainer:nth-child(even) {
   visibility: visible;
 }
 
+.focus {
+  border-bottom: solid 1px white;
+}
+
 ::-webkit-scrollbar {
   width: 0;
   height: 0;

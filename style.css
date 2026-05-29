@@ -18,15 +18,13 @@ header {
   top: 0;
   background-color: black;
   z-index: 10;
-  height: 5%;
+  height: 2rem;
   width: 98%;
   padding: 0 1%;
   align-items: center;
 
   nav {
-    width: 45%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
   }
 
@@ -43,7 +41,7 @@ header {
     color: white;
     font-size: 1vw;
     font-weight: bold;
-
+    margin: 1rem;
   }
 
 }

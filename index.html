@@ -5,422 +5,603 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-    content="Shubham Singh - Software Developer with expertise in JavaScript, React, Node.js, and databases. Passionate about building efficient systems for data processing, user authentication, and collaborative applications. Explore projects like Invoice Generation, Workspace Task Manager, and Writhub Writer's Platform.">
+    content="Shubham Singh — software developer by profession, ravenous reader by leisure, occasional writer. Notes on philosophy, work, and the things I do with the hours I am given.">
   <title>Shubham Singh</title>
-  <link href="./style.css" rel="stylesheet">
-  <script src="./script.js" defer></script>
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <link rel="preload" as="image" href="./public/profilePic.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap"
+    rel="stylesheet">
+  <link href="./style.css" rel="stylesheet">
+  <script>document.documentElement.classList.add('has-js');</script>
+  <script src="./script.js" defer></script>
 </head>
 
-
 <body>
-  <header>
-    <img class="navbarLogo" src="./public/logo.jpeg" alt="logo">
-    <nav>
-      <a href="#About">About</a>
-      <a href="#Experience">Experience</a>
-      <a href="#Projects">Projects</a>
-      <a href="#Libraries">Libraries</a>
-      <a href="#Contact">Contact</a>
+  <main class="site">
+    <div class="book">
+    <!-- The single source of truth, in reading order. With JS off it renders
+         as the ordinary scrolling layout; the paginator clones it to build the
+         pages of the book. -->
+    <div id="manuscript">
+
+    <!-- ============================= COVER ============================= -->
+    <section id="Cover" class="cover">
+      <img class="cover-portrait" src="./public/profilePic-print.webp" alt="Portrait of Shubham Singh"
+        width="1264" height="1280">
+    </section>
+
+    <!-- ============================= INTRO ============================= -->
+    <section id="Intro" class="intro">
+      <h1 class="intro-title">Shubham Singh</h1>
+
+      <p class="cover-blurb">Love playing with the intricacies of language so, professionally, I am a computer
+        programmer; leisurely, a ravenous reader; and occasionally, a withering writer.</p>
+    </section>
+
+    <!-- ========================== CONTENTS ============================ -->
+    <nav id="Contents" class="toc" aria-label="Table of contents">
+      <h2 class="toc-heading">Contents</h2>
+      <ol class="toc-list">
+        <li class="toc-chapter"><a href="#Philosophy"><span class="toc-label">Philosophy</span><span
+              class="toc-dots"></span><span class="toc-num">I</span></a></li>
+        <li class="toc-chapter"><a href="#Profession"><span class="toc-label">Profession</span><span
+              class="toc-dots"></span><span class="toc-num">II</span></a></li>
+        <li class="toc-sub"><a href="#the-beginning"><span class="toc-label">The Beginning</span></a></li>
+        <li class="toc-sub"><a href="#the-opportunity"><span class="toc-label">The Opportunity</span></a></li>
+        <li class="toc-sub"><a href="#the-journey"><span class="toc-label">The Journey</span></a></li>
+        <li class="toc-sub"><a href="#the-milestones"><span class="toc-label">The Milestones</span></a></li>
+        <li class="toc-chapter"><a href="#Predilections"><span class="toc-label">Predilections</span><span
+              class="toc-dots"></span><span class="toc-num">III</span></a></li>
+        <li class="toc-sub"><a href="#philology"><span class="toc-label">Philology</span></a></li>
+        <li class="toc-sub"><a href="#peregrination"><span class="toc-label">Peregrination</span></a></li>
+        <li class="toc-sub"><a href="#poiesis"><span class="toc-label">Poiesis</span></a></li>
+        <li class="toc-sub"><a href="#physiology"><span class="toc-label">Physiology</span></a></li>
+        <li class="toc-sub"><a href="#phronesis"><span class="toc-label">Phronesis</span></a></li>
+        <li class="toc-chapter"><a href="#Correspondence"><span class="toc-label">Correspondence</span><span
+              class="toc-dots"></span><span class="toc-num">&mdash;</span></a></li>
+      </ol>
     </nav>
-  </header>
 
-  <div class="sectionContainer">
-    <section id="About">
-      <div class="flexContainer" id="intro">
-        <img id="profilePicture" src="./public/profilePic.webp" alt="profile-picture">
-        <div class="infoContainer">
-          <h1>Shubham</h1>
-          <h1>Singh</h1>
-          <p> - Software Developer / Engineer.</p>
-        </div>
-        <a class="readMore" href="#info">
-          <img src="./public/more.svg" alt="Read more." />
-        </a>
-      </div>
-      <div class="flexContainer" id="info">
-        <div class="infoContainer">
+    <!-- ======================== I. PHILOSOPHY ========================= -->
+    <section id="Philosophy" class="chapter">
+      <header class="chapter-head">
+        <h2 class="chapter-title">Philosophy</h2>
+        <p class="chapter-subtitle">Intellectual masturbation.</p>
+      </header>
 
-          <fieldset>
-            <legend> My coding journey </legend>
-            I've been coding since 2016. Started with C++ and thought it would "conquer the world" as it's the only
-            language that has it all. That never happened. Then I met JavaScript in sixth semester of my college.
-            Didn't thought much of it and yet now I'm writing client application, back-end server application
-            and even executable scripts for Linux using QuickJs in JavaScript. <br>
-            So, now I truly believe JavaScript will be, and already is, the jack of most trade that I'd hoped C++ to
-            become.
-            As the infamous saying goes, "Everything that can be written in js, will be written in js."
-          </fieldset>
+      <hr class="fleuron">
 
-          <fieldset>
-            <legend> My hobbies </legend>
-            Apart from tech, I'm always on a side quest of understanding something new that I
-            didn't before. This side quest has taken me to the realms of philosophy, psychology, and cognitive science,
-            as I believe there are only two real mysteries left in the world.
-            <br>
-            First, the world itself and second is our own mind, and I think we are much closer to solving the latter
-            than the former.
-          </fieldset>
+      <p class="drop-cap">Due to my limited vocabulary, I'll call it <strong>Whateverism</strong>:
+        A life constituting most, if not all, that existence has to offer: a beginning rooted in learning, a journey of
+        seeking knowledge, and an end seasoned with wisdom.</p>
 
-        </div>
+      <p>In between: joy and depression, tragedy and loss, love and hate, mercy and acceptance. Some failure, a few
+        rejections, more success, with equal reflection.
+        To have experienced it all with open intentions; the heights and the hollows, the mid and the mild, the
+        <em>some</em>, the <em>all</em>, the <em>none</em>, and the <em>void</em>.
+        In the end, meet the ending not as a last resort, but with graceful acceptance.</p>
 
-        <div class="infoContainer">
+      <p>As a clever adage goes: <strong>if you had to live the same life on repeat, would you dread the encore?</strong>
+        One must truly have a <em>life</em>, not just an existence, to delightfully say, &ldquo;Once more.&rdquo;</p>
 
-          <fieldset>
-            <legend> My education </legend>
-            I started as an average student; studying was boring until around seventh or eighth standard when I got an
-            awesome math teacher who showed how fun mathematics really is. After that, getting a good grip on math,
-            other
-            subjects
-            started becoming interesting, mainly physics. It was fun because it gave answers to questions that I never
-            even
-            consciously articulated to myself but always had in the back of my mind. <br>
-            I thought of pursuing it for higher studies, but that field demands a "marathon effort" to actually get some
-            worthwhile results, which was unsuitable for my impatiently curious mind. Enter 'Computer Science and
-            programming in C++' in my eleventh standard. It was the perfect cocktail to satiate my ravenously impatient
-            curiosity,
-            which craved a creative outlet for the mind. Ever since those days, I'm hooked on the world of programming
-            and
-            computer science.
-          </fieldset>
-
-        </div>
-
-      </div>
+      <p class="adage">To conclude, I'd say the purpose of life is to truly live; for a life well-lived is worth dying
+        for.</p>
     </section>
-  </div>
 
-  <div class="sectionContainer" id="Experience">
-    <section id="printInvoice">
-      <div class="flexContainer" id="printInvoiceIntro">
-        <img src="./public/invoiceDemo.webp" alt="canvas flow diagram" loading="lazy" />
-        <div class='infoContainer'>
-          <h1>Invoice print generation.</h1>
-          <p>Design, edit, print and download Invoices as pdf or excel files.
-            <a href="https://erp.mygstcafe.com/" target="_blank">🔗</a>
-          </p>
+    <!-- ======================== II. PROFESSION ======================== -->
+    <section id="Profession" class="chapter">
+      <header class="chapter-head">
+        <h2 class="chapter-title">Profession</h2>
+        <p class="chapter-subtitle">A mode that earns a living.</p>
+      </header>
+
+      <hr class="fleuron">
+
+      <section class="entry">
+        <h3 class="entry-title" id="the-beginning">The Beginning</h3>
+        <p class="drop-cap">The year was 2014, high school, Intro to computer programming with <strong>C++</strong>. It
+          was one of those things that just clicked without much deliberate honing. Never felt like a chore, rather, a
+          better source of entertainment than video games, which were, at that time, one of the highest outlet of
+          adventure and play.</p>
+      </section>
+
+      <section class="entry">
+        <h3 class="entry-title" id="the-opportunity">The Opportunity</h3>
+        <p>In 2022, landed my first job as a <strong>Full Stack Web Developer</strong>. The pay was modest and the
+          benefits were few, but the sheer pleasure of being paid to write code outweighed it all.</p>
+      </section>
+
+      <section class="entry">
+        <h3 class="entry-title" id="the-journey">The Journey</h3>
+        <p>Currently, a <strong>Senior Software Developer</strong> within an R&amp;D team where the days are spent
+          hopping between tech stacks, projects, and evolving responsibilities. Chasing the same language intricacies,
+          creativity and playfulness that drew me to coding in the first place.</p>
+      </section>
+
+      <section class="entry">
+        <h3 class="entry-title" id="the-milestones">The Milestones</h3>
+
+        <article class="milestone">
+          <h4 class="milestone-company">Meritech <span class="milestone-period">April 2025 &ndash; Ongoing</span></h4>
+          <p class="milestone-about">Manufacturer of Mobile Network T&amp;M, Network Optimization, IoT and Edge AI
+            solutions.</p>
+          <p class="milestone-role"><strong>Role: Senior Software Engineer, R&amp;D team, Wireless division</strong></p>
+          <p class="milestone-tech">Python scripting, PHP web development, DevOps, Golang and Rust based backend
+            services development, Flutter + Rust application development</p>
+          <ul class="milestone-list">
+            <li>Worked across multiple cross-functional projects to develop and maintain backend services, optimize
+              Linux servers, and manage containerized environments utilizing Docker, Docker Compose, and Docker Swarm
+              alongside FastAPI and Go and Rust based API services.</li>
+            <li>R&amp;D and implementation of an AI-powered network troubleshooting agent, <a
+                href="https://meritechsolutions.com/wireless-product/sigma-neo/">Sigma-NEO</a>, automating the analysis
+              of Android-generated RF logs to swiftly pinpoint root causes of cellular quality degradation.</li>
+            <li>Designed a modular, provider-agnostic integration layer for leading LLM services; employed advanced
+              orchestration patterns including <strong>Model Context Protocol (MCP)</strong> for local data context,
+              isolated <strong>Sub-Agent</strong> linear networks, and discrete data analysis tools engineered to
+              eliminate the uncertainty produced by pure LLM analysis.</li>
+            <li>Lead a multi-phase system rewrite of a cross-platform Flutter client, employing a strict decoupled
+              topology (Orchestration &rarr; Backend &rarr; UI) to enforce deterministic domain logic separate from
+              execution layers. Designed transport-agnostic routing abstractions bridging local MQTT broker control
+              planes with alternative physical paths&mdash;including LAN, Wi-Fi, and ADB port-forwarding
+              pipelines&mdash;ensuring 100% local-first operational guarantees before layering remote multi-tenant RBAC
+              profiles.</li>
+          </ul>
+        </article>
+
+        <article class="milestone">
+          <h4 class="milestone-company">Opticode Technologies <span class="milestone-period">March 2023 &ndash; March
+              2025</span></h4>
+          <p class="milestone-about">The company develops B2B and B2C software solutions, specialising in GST and tax
+            related software for CAs, as well as business management tools for enterprises.</p>
+          <p class="milestone-role"><strong>Role: Software engineer intern</strong></p>
+          <p class="milestone-tech">ReactJs, Redux, React Query, MaterialUI, ActiveReportJs</p>
+          <ul class="milestone-list">
+            <li>Developed a comprehensive invoice print generation system, allowing users to design, edit, print, and
+              download invoices as PDF or Excel files with both predefined and customized templates.</li>
+          </ul>
+
+          <p class="milestone-role"><strong>Role: Full stack Web Developer</strong></p>
+          <p class="milestone-tech">ReactJs, NodeJs, ExpressJs, Redux, React Query, MaterialUI, ActiveReportJs, Redix,
+            PostgreSql, Sequelise</p>
+          <ul class="milestone-list">
+            <li>Built an optimized Excel data processing service, enabling validation, correction, categorization, and
+              storage of data using parallel worker threads in Node.js, leading to a 40% reduction in data processing
+              time.</li>
+            <li>Designed and implemented a robust multi-tenant database backup and restore system, ensuring 100% data
+              integrity while allowing clients to manage their own backups securely.</li>
+            <li>Developed a JWT-based authentication system with role-based access control (RBAC), empowering admin
+              users to create, assign roles, and grant access efficiently while maintaining a secure, hierarchical
+              access structure.</li>
+            <li>Designed and implemented various REST API using ExpressJs framework for NodeJs.</li>
+          </ul>
+        </article>
+      </section>
+    </section>
+
+    <!-- ====================== III. PREDILECTIONS ====================== -->
+    <section id="Predilections" class="chapter">
+      <header class="chapter-head">
+        <h2 class="chapter-title">Predilections</h2>
+        <p class="chapter-subtitle">Borderline addictions.</p>
+      </header>
+
+      <hr class="fleuron">
+
+      <section class="entry">
+        <h3 class="entry-title" id="philology">Philology</h3>
+        <p class="subsection-subtitle">An amusement found in playing with the intricacies of languages.</p>
+<article class="poem" id="poem-1">
+<h4 class="poem-title">Wordsmith</h4>
+<p class="poem-body">Wordsmith
+No, I’m not
+but do aspire to be,
+sculptor of thoughts
+engraved in syllables,
+not just mine
+but of all proximal thought purveyors.
+Some call me an ice-cold dagger,
+coal-sludge in hearth’d veins
+when bleeds, paints pictures niger,
+dissolving dark disdain.
+It’s true what they say,
+I AM Perfectly Profane,
+prefer precision strike slicing something deep
+that belongs,
+rather than overwrought swear words to slay or
+cliched slangs.
+Yet despite the cold heart &amp; fork tongue
+purpose is not to scar with these lexical
+shenanigans
+but to word with each line and clever phrasing
+different layers of the dead decaying rotten
+fibres of my Being.
+Being of an artist, an artist of the mind
+fingers drenched in blood, eyes blind,
+carving soul out of shadow
+shedding light on shades of the psyche
+as breathing prose &amp; synchronous syllables
+trapped inside me.
+These poems, nothing but a game, an amusing
+outlet,
+and the poet, a jester, who paints with dark pallet.
+Yet don’t be thinking now you know me
+thus hold on &amp; delay your delusional delight,
+for you’ve only read me in the dark
+and have seen me at night…</p>
+</article>
+<article class="poem" id="poem-2">
+<h4 class="poem-title">The Modern Maze</h4>
+<p class="poem-body">The world we live in, there's too much noise.
+All it takes is just a few gestures of our
+finger's tips and we wander off to a world
+that got nothing to do with us or our life
+and yet,
+we end up losing ourselves in it,
+in that world.
+It's almost as if we all are navigating
+through a maze
+where every path that we don't take,
+stares at us as if it's mocking us for
+walking too straight,
+for not letting ourselves wander as if we are
+trapping ourselves in our own cage.</p>
+</article>
+<article class="poem" id="poem-3">
+<h4 class="poem-title">Strom within</h4>
+<p class="poem-body">On this chaotic night,
+when the storm outside matches the storm within,
+the wet window glass and the smell it brings in,
+the petrichor,
+the aeolian noises caressing the callous skin,
+the moon battling the dark clouds for its place in the
+sky,
+the stars nowhere to be seen.
+How can I miss it all?
+Shouldn't I sacrifice my sleep?
+for it's been a while since I've met another
+who resembles what I've been.</p>
+</article>
+<article class="poem" id="poem-4">
+<h4 class="poem-title">Am I?</h4>
+<p class="poem-body">Swirl of wind, a leaf on my lap,
+The season is changing, says the leaf
+as if it's asking, 'are you?'
+Heart ach, it knows it's deed
+and deeds of the forgotten future,
+looking for the answers,
+asking to myself, 'am I?'</p>
+</article>
+<article class="poem" id="poem-5">
+<h4 class="poem-title">The autumn leaf</h4>
+<p class="poem-body">Time to leave,
+says the autumn leaf.
+As off she floats
+to chase the zephyr,
+the evanescent breeze.</p>
+</article>
+<article class="poem" id="poem-6">
+<h4 class="poem-title">Reverie</h4>
+<p class="poem-body">Looking out the window
+warmth of sunrays soothing a winter within.
+They say there's life in them, in those rays
+yet no amount of life can warm the cold
+death within.
+So the mind plays a trick
+a trick not to see what's in front of it
+but to see what it wants to see.
+But why?
+Why conjure up a deception to get deceive?
+Is it looking for what it desires
+or is it missing something that it had already
+once perceived?</p>
+</article>
+<article class="poem" id="poem-7">
+<h4 class="poem-title">Frivolous love</h4>
+<p class="poem-body">She needed his love
+to remember all the reasons
+why she deserved to be loved
+and being in love
+he has given all the reasons he can
+not knowing
+it'll never be enough.</p>
+</article>
+<article class="poem" id="poem-8">
+<h4 class="poem-title">Metamorphosis</h4>
+<p class="poem-body">Dancing to the melodies of these melancholy music, seeking liberation from
+liberation,
+in other words- craving subjugation.
+Better to be walking on the wrong paths than to not move at all,
+better to die daring than to die daily to the thoughts of it all.
+Yes, death is the purpose of living,
+death is the most fulfilling.
+This sickness of mine,
+cure for it is not a will to live
+but a cause worthy of dying for.
+Tired of being patient,
+putting together bits and pieces,
+of seeing all that's fault in all,
+of lacking the fatal fanaticism to devote my all,
+and be again what I was,
+be Nothing</p>
+</article>
+<article class="poem" id="poem-9">
+<h4 class="poem-title">The Moon- a Man</h4>
+<p class="poem-body">The moon-
+Part and parcel of perpetual
+progression,
+an orbital swath,
+time and tide,
+eternal companion.
+Born of colossal impact,
+partial obliteration,
+coalesced and concentrated,
+astral aggregation.
+Many shades
+familiar face
+planetary pirouette,
+crater and dents
+for embellishments.
+-A man.</p>
+</article>
+<article class="poem" id="poem-10">
+<h4 class="poem-title">An early morning jest</h4>
+<p class="poem-body">This one- a parable,
+a saga of cosmetic deception
+on my inebriated aesthetical
+perception.
+A sober expression of a cruel infliction
+by none other than my own
+predilection.
+Eyes opened with sound of birds
+chirping
+while sunshine flirting with the curtain,
+lips smiling as they remember the last
+night
+for it has blessed by a seraphic sight,
+fingers rowed away strands of her
+ruffled hairs
+as sculptor gives shape to his
+masterpiece-
+gentle and fair,
+petaled by waves of those tendril
+hair has now emerged that face, sunlit,
+from lair,
+so emerged, in mind, words of a wise
+man, putting a smile- smugly,
+"No one is that beautiful that under
+certain conditions, they can't look
+ugly".</p>
+</article>
+<article class="poem" id="poem-11">
+<h4 class="poem-title">Burden of Beast</h4>
+<p class="poem-body">There's a monster inside I keep on a leash,
+a behemoth of pride that feeds on the peace,
+ever ready to exact vengeance,
+machete deadly attacks endless.
+Have nothing to fear but fear itself,
+when chaos is near, peers into hell.
+There lies the beast I know too well,
+he asks for release and deceit compels.
+Went nearly insane to chain up the serpent
+contained is the key but also my burden.</p>
+</article>
+<article class="poem" id="poem-12">
+<h4 class="poem-title">Bee</h4>
+<p class="poem-body">Had no clue what she was saying
+her words, derailing
+rhythm, wailing.
+Said, "have no idea what am I doing",
+her expressions, complications brewing.
+By now it was clear
+she was drunk,
+sunk
+into that devotion of erosion,
+a self-loathing implosion,
+sluggish emotion,
+mental commotion.
+But she had an inkling what's happening,
+whispered sanely, "I'm maddening",
+then again goes mumbling,
+babbling fumbling.
+Bumbling like a wounded bee
+wings broken, struggling to flee.
+Was belligerent towards helping hands
+find them repulsive,
+rattling, stings, impulsive.
+Yet it was none of my business
+it's her life she was gambling,
+for me, just another chick rambling.</p>
+</article>
+<article class="poem" id="poem-13">
+<h4 class="poem-title">Miss Cigarette</h4>
+<p class="poem-body">Hey Miss Cigarette,
+let me get you alone,
+set you on fire,
+put you where you belong.
+They say you're lethal
+many men's end, demise,
+like the soul of the Siren
+hiding under an alluring disguise.
+I say, so is Life,
+it's the biggest cause of death
+for no matter what a man does
+her charm kills him in the end.
+She is one of those
+who wants you to conquer,
+make her submit
+then take pleasure of her.
+But you, are one of very few,
+who desire no conquest,
+just smoulders her soul,
+dissolves it into her master.
+Thus why won't a man choose you over her,
+for you provide pleasure, unlike her torture,
+before the end of the Life's chapters!</p>
+</article>
+<article class="poem" id="poem-14">
+<h4 class="poem-title">Ascendance</h4>
+<p class="poem-body">I was raised to be a saint
+and saint fails to make it in the garden.
+Became a sinner,
+but the conscience kneeled everyday to be pardoned.
+So I murdered the tick of this conscience clock,
+counting every recoil of this sinner's glock,
+created a monster, organized my demons,
+created my own hell 'cos heaven isn't for heathens.
+I spread Rage for Love
+for they're too naive to see boredom might equal peace.
+Conditioned them to believe chaos belongs to passion,
+as they seek drama for release.
+Head's up, this isn't poetry that you read,
+it's a proclamation of damnation of wannabes.
+The saint has fallen,
+has risen the devil with wings.
+And this isn't the ending, rather a beginning of the end,
+of the war on being human that has just begun.</p>
+</article>
+<article class="poem" id="poem-15">
+<h4 class="poem-title">Frenemy</h4>
+<p class="poem-body">With a friend like me
+you don't need enemies.
+I'll scar you in all the ways
+that I deemed worthy of you to heal from,
+crumble your every hope
+that's making you blind about your own strength to
+overcome.
+Blind your eyes
+that looks up to the sky
+and say you can't fly,
+mutilate your tongue
+that mouths you can never be the real thing
+so you might as well pretend.
+Incinerate incredulous innocence
+against becoming that which you admired once,
+decimate dissolved dubium
+morph-mutate-seminate them in you as devotion.
+dismantle the dread &amp; dismay
+that got you praying on your knees,
+for I'm not an angel sent here to help
+but the devil who's going to set you free.
+So that the next time,
+you don't wait for someone to come and rescue
+but look in the sadistic eyes of life and smile then say,
+'just a minute, shortly I'll be off with you'.</p>
+</article>
+      </section>
+
+      <section class="entry">
+        <h3 class="entry-title entry-title--verso" id="peregrination">Peregrination</h3>
+        <p class="subsection-subtitle">Indulging in unfamiliar chaos, pursuing proximal peace.</p>
+        <p>From the stillness of tranquil mountains to the chaos of tumultuous cities, I am a perpetual wanderer,
+          forever at ease.</p>
+
+        <div class="plates">
+          <figure class="plate">
+            <img src="./public/photos/IMG_20251228_154822614.webp" width="1600" height="1205" loading="lazy"
+              decoding="async" alt="Peregrination, plate I">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20260315_132708525.webp" width="1600" height="1200" loading="lazy"
+              decoding="async" alt="Peregrination, plate II">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20260316_181554196.webp" width="1600" height="1205" loading="lazy"
+              decoding="async" alt="Peregrination, plate III">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20260419_184831025.webp" width="1600" height="1205" loading="lazy"
+              decoding="async" alt="Peregrination, plate IV">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20260515_135537792.webp" width="1600" height="1202" loading="lazy"
+              decoding="async" alt="Peregrination, plate V">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20260515_164902341.webp" width="1600" height="1202" loading="lazy"
+              decoding="async" alt="Peregrination, plate VI">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20260516_123338806.webp" width="1600" height="1202" loading="lazy"
+              decoding="async" alt="Peregrination, plate VII">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20261002_181056941.webp" width="1600" height="1205" loading="lazy"
+              decoding="async" alt="Peregrination, plate VIII">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20261003_141508664.webp" width="1600" height="1202" loading="lazy"
+              decoding="async" alt="Peregrination, plate IX">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20261003_175425803.webp" width="1205" height="1600" loading="lazy"
+              decoding="async" alt="Peregrination, plate X">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20261004_062237164.webp" width="1600" height="1200" loading="lazy"
+              decoding="async" alt="Peregrination, plate XI">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20261004_071333884_HDR.webp" width="1600" height="900" loading="lazy"
+              decoding="async" alt="Peregrination, plate XII">
+          </figure>
+          <figure class="plate">
+            <img src="./public/photos/IMG_20261004_082926566.webp" width="1600" height="1202" loading="lazy"
+              decoding="async" alt="Peregrination, plate XIII">
+          </figure>
         </div>
-        <a class="readMore" href="#printInvoice-info">
-          <img src="./public/more-black.svg" alt="more information." loading="lazy" />
-        </a>
-      </div>
-      <div class="flexContainer" id="printInvoice-info">
-        <img src="./public/invoiceUML.svg" alt="invoice module demo." loading="lazy" />
-        <ul class="infoContainer">
-          <li>
-            The process involves two choices: generating invoices with predefined designs or editing designs.
-          </li>
-          <li>
-            For the first option, users select a predefined design, and the system fetches this design from the
-            database.
-            It combines the design with invoice data, generates HTML, and allows the user to view or download the
-            invoice.
-          </li>
-          <li>
-            The second choice involves design editing. Users open a design editor, and a template design is created
-            using
-            default JSON. Users customize the design with real-time previews, save their changes as the new default JSON
-            in the database when satisfied.
-          </li>
-          <a class="goBack" href="#printInvoiceIntro">
-            <img src="./public/more-black.svg" alt="more info." loading="lazy" />
-          </a>
+      </section>
+
+      <section class="entry">
+        <h3 class="entry-title entry-title--verso" id="poiesis">Poiesis</h3>
+        <p class="subsection-subtitle">Artifacts of curiosity.</p>
+        <p>Building solely for the sheer &ldquo;high&rdquo; of creation in the moments when an abstract concept becomes a
+          physical codebase.</p>
+        <p>See my projects on <a href="https://github.com/5hubham5ingh">GitHub</a>.</p>
+      </section>
+
+      <section class="entry">
+        <h3 class="entry-title entry-title--verso" id="physiology">Physiology</h3>
+        <p class="subsection-subtitle">A physical outlet for the drive to excel, an excuse to fight off the degeneration
+          of aging.</p>
+        <ul class="passion-list">
+          <li>Calisthenics</li>
+          <li>Table Tennis</li>
+          <li>Swimming <em>(On the horizon)</em></li>
         </ul>
-      </div>
+      </section>
+
+      <section class="entry">
+        <h3 class="entry-title entry-title--verso" id="phronesis">Phronesis</h3>
+        <p class="subsection-subtitle">The side quests of curiosity.</p>
+        <p>Apart from tech, I'm always on a side-quest to understand that which I didn't before. This has taken me into
+          the realms of philosophy, psychology, and cognitive science.</p>
+      </section>
     </section>
-    <section id="excelDataProcessing">
-      <div class="flexContainer" id="excelDataProcessingIntro">
-        <img src="./public/excelProcessing.gif" alt="excel processing demo" loading="lazy" />
-        <div class="infoContainer">
-          <h1>Excel data processing</h1>
-          <p>Validation, Correction, Categorization, and Storage
-            <a href="https://erp.mygstcafe.com/" target="_blank">🔗</a>
-          </p>
-        </div>
-        <a class="readMore" href="#excelDataProcessingInfo">
-          <img src="./public/more-black.svg" alt="Read more." loading="lazy" />
-        </a>
-      </div>
-      <div class="flexContainer" id="excelDataProcessingInfo">
-        <img src="./public/excel-data-processing.svg" alt="excel data processing uml." loading="lazy" />
-        <ul class="infoContainer">
-          <li>
-            Two workers are used: Schema Validation Worker and Data Validation Worker.
-          </li>
-          <li>
-            The Data Validation Worker receives the file and data validation function. The flow: Excel file is split
-            into sheets, Schema Validation Worker checks them concurrently. Sheets then go for data validation based on
-            schema results.
-          </li>
-          <li>
-            After Data Validation, data is categorized as 'Valid Data' or 'Invalid Data.' Valid data is stored in the
-            database, while invalid data is returned to the client app for correction by the user. The corrected data
-            goes through
-            validation again.
-          </li>
 
-          <a class="goBack" href="#excelDataProcessingIntro">
-            <img src="./public/more-black.svg" alt="Read more." loading="lazy" />
-          </a>
-        </ul>
+    <!-- ============ CLOSING PAGE: CORRESPONDENCE ====================== -->
+    <section id="Correspondence" class="chapter chapter--closing">
+      <header class="chapter-head">
+        <h2 class="chapter-title">Correspondence</h2>
+        <p class="chapter-subtitle">For inquiries, discourse, or shared silence.</p>
+      </header>
 
-      </div>
+      <hr class="fleuron">
+
+      <ul class="contact-list">
+        <li><a href="https://github.com/5hubham5ingh">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/5hubham5ingh/">LinkedIn</a></li>
+        <li><a href="mailto:ss.dev.me@gmail.com">Gmail</a></li>
+        <li><a href="https://wa.me/ss.chat">WhatsApp</a></li>
+      </ul>
     </section>
-    <section id="clientDataBackupManagement">
-      <div class="flexContainer" id="dbBackupIntro">
-        <img src="./public/dbBackup.webp" alt="database backup demo" id="dbBackupDemoScaleUp" loading="lazy" />
-        <div class="infoContainer">
-          <h1>User data backup & restore.</h1>
-          <p>
-            Database backup system for the multi-tenant architecture enables each tenant to create, list, download,
-            delete, and restore their own data backups.
-            <a href="https://erp.mygstcafe.com/" target="_blank">🔗</a>
-          </p>
-        </div>
-        <a class="readMore" href="#dbBackupInfo">
-          <img src="./public/more-black.svg" alt="Read more." loading="lazy" />
-        </a>
       </div>
-      <div class="flexContainer" id="dbBackupInfo">
-        <img src="./public/dbBackup.svg" alt="database backup uml." id="dbBackupScaleDown" loading="lazy" />
-        <ul class="infoContainer">
-          <li> Tenants can generate backups, view all backups, download individual or
-            all backups in ZIP format, and remove obsolete backups.
-          </li>
-          <li>The restore process includes safeguards by creating
-            temporary backups to prevent data loss.
-          </li>
-          <li>This robust system ensures data integrity, security, and
-            accessibility for each tenant.
-          </li>
-          <a class="goBack" href="#dbBackupIntro">
-            <img src="./public/more-black.svg" alt="Read more." loading="lazy" />
-          </a>
-        </ul>
-      </div>
-    </section>
-    <section id="jwtSessionManagement">
-      <div class="flexContainer" id="jwtIntro">
-        <img src="./public/jwt-session.svg" alt="jwt session demo" loading="lazy" />
-        <div class="infoContainer">
-          <h1>User session management</h1>
-          <p>
-            JWT authentication system for user authentication within the application.</p>
-        </div>
-        <a class="readMore" href="#jwtSessionManagementInfo">
-          <img src="./public/more-black.svg" alt="jwt session management." loading="lazy" />
-        </a>
-      </div>
-      <div class="flexContainer" id="jwtSessionManagementInfo">
-        <img src="./public/jwtUml.png" id="jwtUml" alt="Read more." loading="lazy" />
-        <ul class="infoContainer">
-          <li>The JWT session management system authenticates users by issuing a JWT token with a fixed expiration time,
-            which is stored in a cookie.</li>
-          <li> If the user opts for "keep me logged in," a refresh token is also generated and stored securely in local
-            storage.</li>
-          <li>When the JWT token expires, the client can use the refresh token to request a new JWT token.</li>
-          <li>On logout, the JWT token is cleared from the cookie, and any refresh token is removed from local storage.
-          </li>
+    </div>
 
-          <a class="goBack" href="#jwtIntro">
-            <img src="./public/more-black.svg" alt="Read more." loading="lazy" />
-          </a>
-        </ul>
-
-      </div>
-    </section>
-  </div>
-
-  <div class="sectionContainer" id="Projects">
-    <section id="Workspace">
-      <div class="flexContainer" id="workspaceIntro">
-        <img src="./public/workspaceDemo.webp" alt="workspace demo" loading="lazy" />
-        <div class="infoContainer">
-          <h1>Workspace</h1>
-          <p>
-            A minimal yet production ready collaborative task-manager.
-            <a href="https://task-manager-omega-coral.vercel.app/" target="_blank">🔗</a>
-          </p>
-        </div>
-        <a class="readMore" href="#workspaceInfo">
-          <img src="./public/more.svg" alt="Read more." loading="lazy" />
-        </a>
-      </div>
-      <div class="flexContainer" id="workspaceInfo">
-        <img src="./public/workspace-arch.svg" alt="workspace architecture." loading="lazy" />
-        <ul class="infoContainer">
-          <li> A collaborative task manager that allows users to create workspaces and invite team members to
-            collaborate. </li>
-          <li>Within each workspace, users can assign tasks to specific team members and track their completion status.
-          </li>
-          <li> Only the creator of a workspace has the authority to delete it, ensuring workspace integrity.</li>
-          <li>Similarly, tasks can only be deleted by their creators, while other team members can mark them as complete
-            once finished.</li>
-          <li>This setup ensures clear accountability and efficient task management within the team.</li>
-
-          <a class="goBack" href="#workspaceIntro">
-            <img src="./public/more.svg" alt="Read more." loading="lazy" />
-          </a>
-        </ul>
-      </div>
-
-    </section>
-    <section id="Writhub">
-      <div class="flexContainer" id="writhubIntro">
-        <img src="./public/writhubDemo.webp" alt="writhub demo" loading="lazy" />
-        <div class="infoContainer">
-          <h1>Writhub</h1>
-          <p>
-            A social media exclusively for writers to create, contribute, collaborate and share written contents.
-            <a href="https://shubham-slngh.github.io/writhub/" target="_blank">🔗</a>
-          </p>
-        </div>
-        <a class="readMore" href="#writhubInfo">
-          <img src="./public/more.svg" alt="Read more." loading="lazy" />
-        </a>
-      </div>
-      <div class="flexContainer" id="writhubInfo">
-        <img src="./public/writhub-flow.svg" alt="writhub flow diagram." loading="lazy" />
-        <ul class="infoContainer">
-          <li> Designed exclusively for writers and readers to engage with written content.</li>
-          <li> The platform supports text posts only, enabling users to comment, like, promote, and share posts.</li>
-          <li> It emphasizes community-driven collaboration and contribution, fostering interaction among literary
-            enthusiasts. </li>
-          <li>Key features include a text-centric interface, user engagement tools, and content sharing capabilities.
-          </li>
-
-          <a class="goBack" href="#writhubIntro">
-            <img src="./public/more.svg" alt="Read more." />
-          </a>
-        </ul>
-      </div>
-    </section>
-    <section id="Canvas">
-      <div class="flexContainer" id="canvasIntro">
-        <video loop autoplay muted
-          src="https://5hubham5ingh.github.io/Canvas/static/media/demo.5efbf2e1f2210ddb0636.mp4"></video>
-        <div class="infoContainer">
-          <h1>Canvas</h1>
-          <p>
-            A designer app that let users designs basic html pages and export them as html or pdf files.
-            <a href="https://5hubham5ingh.github.io/Canvas/" target="_blank">🔗</a>
-          </p>
-        </div>
-        <a class="readMore" href="#canvasInfo">
-          <img src="./public/more.svg" alt="Read more." />
-        </a>
-      </div>
-      <div class="flexContainer" id="canvasInfo">
-        <img src="./public/canvas-flow.svg" id="canvasUml" alt="canvas info." loading="lazy" />
-        <ul class="infoContainer">
-          <li>The web application enables users to design HTML pages with a drag-and-drop interface and export them as
-            responsive HTML, high-quality PDFs, or customizable Excel files.</li>
-          <li> It includes a data visualization feature for creating interactive charts and graphs. </li>
-          <li>Additionally, the application supports offline functionality for uninterrupted project work.</li>
-
-          <a class="goBack" href="#canvasIntro">
-            <img src="./public/more.svg" alt="Read more." />
-          </a>
-        </ul>
-      </div>
-
-    </section>
-  </div>
-
-  <div id="Libraries">
-
-    <a href="https://react.dev/">
-      <img src="./public/reactLogo.png" alt="" loading="lazy">
-      <h1>React</h1>
-    </a>
-    <a href="https://redux.js.org/">
-      <img src="./public/redux.svg" alt="" loading="lazy">
-      <h1>Redux</h1>
-    </a>
-    <a href="https://developer.mescius.com/activereportsjs">
-      <img src="./public/arjs.png" alt="" loading="lazy">
-      <h1>ActiveReportJs</h1>
-    </a>
-    <a href="https://formik.org/">
-      <img src="./public/formik.png" alt="" loading="lazy">
-      <h1>Formik + Yup</h1>
-    </a>
-    <a href="https://nodejs.org/en">
-      <img src="./public/nodejs.png" alt="" loading="lazy">
-      <h1>NodeJs</h1>
-    </a>
-    <a href="https://expressjs.com/">
-      <img src="./public/expressjs.png" alt="" loading="lazy">
-      <h1>ExpressJs</h1>
-    </a>
-    <a href="https://www.typescriptlang.org/">
-      <img src="./public/ts.png" alt="" loading="lazy">
-      <h1>Typescript</h1>
-    </a>
-    <a href="https://www.postgresql.org/">
-      <img src="./public/pqsql.png" alt="" loading="lazy">
-      <h1>PostgresSql</h1>
-    </a>
-    <a href="https://redis.io/">
-      <img src="./public/redis.png" alt="" loading="lazy">
-      <h1>Redis</h1>
-    </a>
-    <a href="https://www.mongodb.com/">
-      <img src="./public/mongoDb.png" alt="" loading="lazy">
-      <h1>MongoDb</h1>
-    </a>
-    <a href="https://mongoosejs.com/">
-      <img src="./public/mongoose.png" alt="" loading="lazy">
-      <h1>Mongoose</h1>
-    </a>
-    <a href="https://sequelize.org/">
-      <img src="./public/sequelise.png" alt="" loading="lazy">
-      <h1>Sequelize</h1>
-    </a>
-    <a href="https://www.w3schools.com/html/html_intro.asp">
-      <img src="./public/html.png" alt="" loading="lazy">
-      <h1>HTML</h1>
-    </a>
-    <a href="https://www.w3schools.com/css/css_intro.asp">
-      <img src="./public/css.png" alt="" loading="lazy">
-      <h1>CSS</h1>
-    </a>
-    <a href="https://en.wikipedia.org/wiki/Linux">
-      <img src="./public/linux.png" alt="" loading="lazy">
-      <h1>Linux</h1>
-    </a>
-    <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">
-      <img src="./public/bash.png" alt="" loading="lazy">
-      <h1>Bash</h1>
-    </a>
-    <a href="https://nixos.org/">
-      <img src="./public/nix.png" alt="" loading="lazy">
-      <h1>Nix</h1>
-    </a>
-  </div>
-
-  <footer id="Contact">
-    <a href="https://x.com/5hubham_Singh">
-      <img src="./public/x_logo.svg" alt="X" loading="lazy">
-    </a>
-    <a href="https://github.com/5hubham5ingh"">
-      <img  src=" ./public/github-mark-white.svg" alt="Github" loading="lazy">
-    </a>
-    <a href="https://www.linkedin.com/in/5hubham5ingh/">
-      <img src=" ./public/linkedIn.svg" alt="LinkedIn" loading="lazy">
-    </a>
-  </footer>
-
-  <div id="snackbar">
-    Hey there! In a hurry?
-    <br>
-    Then use AI to summarise everything for you.
-    <br>
-    <br>
-    <a href="./summary.html">Sure</a>
-    <button onclick="showFullScreen()">Nope</button>
-  </div>
+    <div id="book"></div>
+  </main>
 </body>
 
 </html>

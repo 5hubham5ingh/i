@@ -84,21 +84,29 @@
 
     root.querySelectorAll('.plates').forEach((plates) => {
       const figures = Array.from(plates.children);
+      // Wide screenshots read better one to a row; photographs pair up.
+      const single = plates.classList.contains('plates--single');
+      const perRow = single ? 1 : 2;
       const rows = [];
-      for (let i = 0; i < figures.length; i += 2) {
+      for (let i = 0; i < figures.length; i += perRow) {
         const row = doc.createElement('div');
-        // Alternating rows pin their photographs down the other way, so the
-        // gallery reads as a scrapbook page rather than a grid.
-        row.className = rows.length % 2 ? 'plate-row plate-row--b' : 'plate-row';
-        figures.slice(i, i + 2).forEach((figure) => row.appendChild(figure));
+        if (single) {
+          row.className = 'plate-row plate-row--single';
+        } else {
+          // Alternating rows pin their photographs down the other way, so the
+          // gallery reads as a scrapbook page rather than a grid.
+          row.className = rows.length % 2 ? 'plate-row plate-row--b' : 'plate-row';
+        }
+        figures.slice(i, i + perRow).forEach((figure) => row.appendChild(figure));
         rows.push(row);
       }
       plates.replaceWith(...rows);
     });
 
-    // The gallery is short; fetch it while the reader is still near the start so
-    // the plates are decoded by the time that spread is reached.
-    root.querySelectorAll('.plate img').forEach((img) => { img.loading = 'eager'; });
+    // The travel gallery is short; fetch it while the reader is still near the
+    // start so the plates are decoded by the time that spread is reached.
+    // Project screenshots stay lazy: there are many of them.
+    root.querySelectorAll('.plate:not(.plate--project) img').forEach((img) => { img.loading = 'eager'; });
 
     // Lift the items out of the lists inside split-able blocks, so a block can
     // break between two bullets instead of forcing the whole list onto a page.
@@ -177,6 +185,11 @@
             pageSide: verso ? 'left' : undefined
           });
         }
+        if (cls.contains('project')) {
+          // Projects flow on from the Poiesis introduction and from one
+          // another; a gallery that runs long simply continues overleaf.
+          return push({ node: el, splittable: true });
+        }
         if (cls.contains('entry-title')) {
           // A subsection may open on a fresh left page: the gloss and the body
           // that follow it run on from there.
@@ -233,9 +246,19 @@
     const current = () => state.pages[state.pages.length - 1];
     const filled = (page) => page.content.childElementCount > 0;
 
+    // Clearance kept at the foot of a page for a row of taped prints.
+    const PLATE_CLEARANCE = 16;
+
     const fits = (page, node) => {
       page.content.appendChild(node);
-      const ok = page.content.scrollHeight <= page.content.clientHeight + 1;
+      let ok = page.content.scrollHeight <= page.content.clientHeight + 1;
+      // Rotated, taped prints sit a little outside their layout box and the
+      // last row's margin is not counted by `scrollHeight`; a gallery row needs
+      // clearance at the foot of the page so nothing is cut off.
+      if (ok && node.classList.contains('plate-row')) {
+        const bounds = page.content.getBoundingClientRect();
+        ok = node.getBoundingClientRect().bottom <= bounds.bottom - PLATE_CLEARANCE;
+      }
       page.content.removeChild(node);
       return ok;
     };

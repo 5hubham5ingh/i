@@ -202,6 +202,11 @@
             keepWithNext: true                                 // never end a page with just a heading
           });
         }
+        if (cls.contains('reading-list')) {
+          // The talks may run over a page; `pour` splits the list between its
+          // items and re-wraps them in the list on each page.
+          return push({ node: el, splittable: true });
+        }
         push({ node: el });
       });
     };
@@ -293,7 +298,9 @@
 
         list.forEach((part) => {
           if (!first && part.classList.contains('poem-title')) return;
-          if (part.tagName === 'LI') {
+          // Items lifted out of a list are re-wrapped in one; items that are
+          // already in a list (the reading list) stay in their own.
+          if (part.tagName === 'LI' && container.tagName !== 'UL') {
             if (!nextList) {
               nextList = doc.createElement('ul');
               nextList.className = part.getAttribute('data-list') || 'milestone-list';

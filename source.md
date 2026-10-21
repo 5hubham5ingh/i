@@ -414,6 +414,16 @@ Building solely for the sheer "high" of creation in the moments when an abstract
 
 Apart from tech, I'm always on a side-quest to understand that which I didn't before. This has taken me into the realms of philosophy, psychology, and cognitive science.
 
+Introduction to western philosophers: https://www.youtube.com/watch?v=UTMbaRrchfE&list=PLrbDdGg7Qy8hDPo125G5RKOhjvZWLEqX1
+
+The human brain: https://www.youtube.com/watch?v=ba-HMvDn_vU&list=PLUl4u3cNGP60IKRN_pFptIBxeiMc0MCJP
+
+Introduction to linguistic: https://www.youtube.com/watch?v=Mvy5hjAWeZw&list=PLUl4u3cNGP63BZGNOqrF2qf_yxOjuG35j
+
+Human behavioral biology: https://www.youtube.com/watch?v=NNnIGh9g6fA&list=PL848F2368C90DDC3D
+
+Maps of meaning: https://www.youtube.com/watch?v=4tQOlQRp3gQ&list=PL22J3VaeABQCn5nTAx65NRlh1EsKD0UQD
+
 ---
 
 # Correspondence

@@ -654,11 +654,18 @@ html.has-js #manuscript {
 /* --------------------------- The scrolling book -------------------------- */
 
 /* Every spread fills the screen and the document scrolls through them, each
-   one snapping into place. The scrollbar is always reserved so that measuring
-   a page never changes its width. */
+   one snapping into place. The native scrollbar is hidden in this mode; the
+   section rail at the right edge is its replacement. */
 html.paged {
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html.paged::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 body.paged {
@@ -712,6 +719,12 @@ body.paged #book {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+/* A page is a `<section>` and so inherits the scroll margin meant for the
+   unpaginated layout; a full-screen leaf must sit flush with the viewport. */
+body.paged .page {
+  scroll-margin-top: 0;
 }
 
 /* The paper runs edge to edge; the text keeps a readable measure. */
@@ -807,9 +820,147 @@ body.one-up .spread::after {
   display: none;
 }
 
+/* ----------------------------- Section rail ------------------------------ */
+
+/* One dash per contents entry, grouped by chapter. The rail only exists once
+   the paginator has built the book; with JS off the native scrollbar remains. */
+.scroll-rail {
+  position: fixed;
+  top: 50%;
+  right: clamp(0.55rem, 1.3vw, 1.15rem);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  transform: translateY(-50%);
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.scroll-rail[hidden] {
+  display: none;
+}
+
+.rail-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 1.55rem;
+  height: 0.72rem;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rail-link:hover,
+.rail-link:focus-visible {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The dash and its label carry the focus state; a box around the invisible
+   hit area would only add a second, competing rectangle. */
+.rail-link:focus-visible {
+  outline: none;
+}
+
+/* The air between groups carries the chapter structure. */
+.rail-link--chapter {
+  margin-top: 0.45rem;
+}
+
+.rail-link--chapter:first-child {
+  margin-top: 0;
+}
+
+.rail-dash {
+  display: block;
+  width: 0.9rem;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(44, 24, 16, 0.3);
+  transition: width 0.18s ease, background-color 0.18s ease;
+}
+
+.rail-link--chapter .rail-dash {
+  width: 1.35rem;
+  background: rgba(44, 24, 16, 0.48);
+}
+
+.rail--hoverable .rail-link:not(.is-active):hover .rail-dash {
+  width: 1.55rem;
+  background: var(--accent);
+}
+
+.rail-link:not(.is-active):focus-visible .rail-dash,
+.rail-link:not(.is-active).is-open .rail-dash {
+  width: 1.55rem;
+  background: var(--accent);
+}
+
+.rail-link.is-active .rail-dash {
+  width: 1.6rem;
+  background: var(--accent);
+}
+
+.rail-link--chapter.is-active .rail-dash {
+  width: 1.85rem;
+}
+
+.rail-link:focus-visible .rail-dash {
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.18);
+}
+
+/* A small paper tag naming the destination, set to the left of the rail. */
+.rail-link::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid rgba(139, 69, 19, 0.28);
+  border-radius: 2px;
+  background: #f7eeda;
+  box-shadow: 0 5px 14px -7px rgba(44, 24, 16, 0.5);
+  color: var(--ink);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(0.18rem);
+  transition: opacity 0.12s ease, transform 0.12s ease, visibility 0s linear 0.12s;
+}
+
+.rail--hoverable .rail-link:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%);
+  transition-delay: 0s;
+}
+
+.rail-link:focus-visible::after,
+.rail-link.is-open::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%);
+  transition-delay: 0s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html.paged {
     scroll-behavior: auto;
+  }
+
+  .rail-dash,
+  .rail-link::after {
+    transition: none;
   }
 }
 
@@ -829,6 +980,12 @@ body.one-up .spread::after {
 
   [hidden] {
     display: block !important;
+  }
+
+  /* The rail is an on-screen control, not part of the printed book. */
+  .scroll-rail,
+  .scroll-rail[hidden] {
+    display: none !important;
   }
 
   .spread {
@@ -869,6 +1026,35 @@ body.one-up .spread::after {
   .plates {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 0.7rem;
+  }
+
+  /* A slightly taller hit area and tighter spacing keep the rail reachable
+     without crowding the page. */
+  .scroll-rail {
+    right: 0.4rem;
+    gap: 0.22rem;
+  }
+
+  .rail-link {
+    width: 1.75rem;
+    height: 0.95rem;
+  }
+
+  .rail-link--chapter {
+    margin-top: 0.4rem;
+  }
+
+  .rail-dash {
+    width: 0.78rem;
+  }
+
+  .rail-link--chapter .rail-dash {
+    width: 1.1rem;
+  }
+
+  .rail-link::after {
+    right: 1.9rem;
+    font-size: 0.78rem;
   }
 }
 

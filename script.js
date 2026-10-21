@@ -22,6 +22,15 @@
   const body = doc.body;
   const manuscript = doc.getElementById('manuscript');
   const book = doc.getElementById('book');
+  const rail = doc.getElementById('scroll-rail');
+
+  // Show the hover label only where a real hover exists; on a touch screen a
+  // tap should navigate rather than leave a label stuck behind.
+  if (rail && window.matchMedia) {
+    const canHover = window.matchMedia('(hover: hover)').matches ||
+      window.matchMedia('(any-hover: hover)').matches;
+    rail.classList.toggle('rail--hoverable', canHover);
+  }
 
   if (!manuscript || !book) {
     html.classList.remove('has-js');
@@ -39,8 +48,8 @@
   // ------------------------------------------------------------- geometry --
 
   function measureViewport() {
-    // clientWidth excludes the scrollbar, which the stylesheet always reserves,
-    // so the measurement stays stable while the pages are being built.
+    // The stylesheet hides the scrollbar in paged mode, so clientWidth is the
+    // full viewport and the measurement stays stable while pages are built.
     const vw = html.clientWidth;
     const vh = window.innerHeight;
     const twoUp = vw >= 1000 && vw / vh >= 1;
@@ -488,6 +497,7 @@
 
     const clone = prepare(manuscript.cloneNode(true));
     paginate(collect(clone));
+    buildRail();
   }
 
   // ------------------------------------------------------------ navigation --
@@ -524,6 +534,7 @@
       html.style.scrollBehavior = '';
     }
     writeHash(i);
+    updateRail(i);
   }
 
   function step(direction) {
@@ -564,6 +575,85 @@
     return best;
   }
 
+  // ------------------------------------------------------------ section rail --
+
+  const railLinks = [];
+
+  // The contents are the rail's source of truth: their labels are already
+  // written, and their order is the book's order.
+  function railEntries() {
+    const toc = manuscript.querySelector('.toc-list');
+    if (!toc) return [];
+
+    return Array.from(toc.children).map((item) => {
+      const link = item.querySelector('a[href^="#"]');
+      if (!link) return null;
+      const label = link.querySelector('.toc-label');
+      return {
+        slug: link.getAttribute('href').slice(1).toLowerCase(),
+        label: (label ? label.textContent : link.textContent).trim(),
+        chapter: item.classList.contains('toc-chapter')
+      };
+    }).filter(Boolean);
+  }
+
+  function buildRail() {
+    if (!rail) return;
+
+    rail.textContent = '';
+    railLinks.length = 0;
+
+    railEntries().forEach((entry) => {
+      if (!state.slugs.has(entry.slug)) return;
+
+      const link = doc.createElement('a');
+      link.className = 'rail-link' + (entry.chapter ? ' rail-link--chapter' : '');
+      link.href = '#' + entry.slug;
+      link.draggable = false;
+      link.dataset.slug = entry.slug;
+      link.dataset.label = entry.label;
+      link.setAttribute('aria-label', entry.label);
+
+      const dash = doc.createElement('span');
+      dash.className = 'rail-dash';
+      link.appendChild(dash);
+
+      rail.appendChild(link);
+      railLinks.push(link);
+    });
+
+    rail.hidden = railLinks.length === 0;
+    updateRail(state.current);
+  }
+
+  function updateRail(index) {
+    if (!railLinks.length) return;
+
+    // In two-page mode the page's right-hand leaf belongs to the same spread,
+    // so a section opening there is already in view.
+    const reach = index + (state.twoUp ? 1 : 0);
+    let active = null;
+    let activePage = -1;
+
+    railLinks.forEach((link) => {
+      const at = state.slugs.get(link.dataset.slug);
+      if (at === undefined || at > reach) return;
+      // Several short entries can share one page; the page is the unit the
+      // reader sees, so keep the first of them rather than the last.
+      if (at > activePage) {
+        active = link;
+        activePage = at;
+      }
+    });
+
+    railLinks.forEach((link) => {
+      const current = link === active;
+      link.classList.toggle('is-active', current);
+      if (current) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
   let scrollFrame = 0;
 
   function onScroll() {
@@ -575,6 +665,7 @@
       if (index !== state.current) {
         state.current = index;
         writeHash(index);
+        updateRail(index);
       }
     });
   }
@@ -597,6 +688,7 @@
       body.classList.remove('paged');
       body.classList.remove('one-up');
       html.classList.remove('has-js');
+      if (rail) rail.hidden = true;
       if (window.console) console.error('Book pagination failed; showing the scrolling layout.', error);
     }
   }
@@ -650,6 +742,64 @@
     event.preventDefault();
     scrollToPage(state.slugs.get(slug), true);
   });
+
+  // On touch, a held dash shows its label; the release after a hold must not
+  // then navigate, while an ordinary tap still follows the link.
+  if (rail) {
+    let holdTimer = 0;
+    let heldLink = null;
+    let suppressClick = false;
+
+    const cancelHold = () => {
+      window.clearTimeout(holdTimer);
+      holdTimer = 0;
+    };
+
+    const releaseHold = () => {
+      cancelHold();
+      if (!heldLink) return;
+      const link = heldLink;
+      heldLink = null;
+      window.setTimeout(() => link.classList.remove('is-open'), 900);
+    };
+
+    rail.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return;
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('.rail-link');
+      if (!link) return;
+
+      cancelHold();
+      rail.querySelectorAll('.rail-link.is-open').forEach((open) => open.classList.remove('is-open'));
+      heldLink = null;
+      suppressClick = false;
+
+      holdTimer = window.setTimeout(() => {
+        heldLink = link;
+        link.classList.add('is-open');
+        suppressClick = true;
+      }, 350);
+    });
+
+    window.addEventListener('pointerup', releaseHold);
+    window.addEventListener('pointercancel', releaseHold);
+    rail.addEventListener('pointerleave', releaseHold);
+
+    // Holding a dash on a phone should not open the browser's context menu;
+    // a desktop right-click still gets its usual menu.
+    rail.addEventListener('contextmenu', (event) => {
+      if (heldLink) event.preventDefault();
+    });
+
+    rail.addEventListener('click', (event) => {
+      // `detail` is 0 for keyboard activation and scripted clicks; only a
+      // touch-generated click should be swallowed after a hold.
+      if (!suppressClick || event.detail === 0) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    }, true);
+  }
 
   window.addEventListener('scroll', onScroll, { passive: true });
 

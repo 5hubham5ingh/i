@@ -23,14 +23,8 @@
   const manuscript = doc.getElementById('manuscript');
   const book = doc.getElementById('book');
   const rail = doc.getElementById('scroll-rail');
-
-  // Show the hover label only where a real hover exists; on a touch screen a
-  // tap should navigate rather than leave a label stuck behind.
-  if (rail && window.matchMedia) {
-    const canHover = window.matchMedia('(hover: hover)').matches ||
-      window.matchMedia('(any-hover: hover)').matches;
-    rail.classList.toggle('rail--hoverable', canHover);
-  }
+  const railScroll = doc.getElementById('rail-scroll');
+  const railTip = doc.getElementById('rail-tip');
 
   if (!manuscript || !book) {
     html.classList.remove('has-js');
@@ -520,6 +514,7 @@
     const count = state.pages.length;
     if (!count) return;
 
+    hideRailTip();
     let i = Math.max(0, Math.min(index, count - 1));
     if (state.twoUp) i -= i % 2;                             // a spread is the unit
     state.current = i;
@@ -534,7 +529,10 @@
       html.style.scrollBehavior = '';
     }
     writeHash(i);
-    updateRail(i);
+    // During a smooth scroll the scroll position is the truth; the rail will
+    // follow it through `onScroll`. Jumping the rail to the destination first
+    // would flash it there and back on a long jump.
+    if (!smooth) updateRail(i, false);
   }
 
   function step(direction) {
@@ -578,69 +576,91 @@
   // ------------------------------------------------------------ section rail --
 
   const railLinks = [];
+  let tipLink = null;
 
-  // The contents are the rail's source of truth: their labels are already
-  // written, and their order is the book's order.
-  function railEntries() {
-    const toc = manuscript.querySelector('.toc-list');
-    if (!toc) return [];
+  // Every titled part of the book, including the pieces the contents omit.
+  const RAIL_POINTS = '.cover, .intro-title, .toc-heading, .chapter-title, ' +
+    '.entry-title, .poem-title, .project-title, .milestone-company, .reading-title';
 
-    return Array.from(toc.children).map((item) => {
-      const link = item.querySelector('a[href^="#"]');
-      if (!link) return null;
-      const label = link.querySelector('.toc-label');
-      return {
-        slug: link.getAttribute('href').slice(1).toLowerCase(),
-        label: (label ? label.textContent : link.textContent).trim(),
-        chapter: item.classList.contains('toc-chapter')
-      };
-    }).filter(Boolean);
+  function railPoint(el) {
+    if (el.classList.contains('cover')) return { label: 'Cover', level: 'front' };
+    if (el.classList.contains('intro-title')) return { label: 'Introduction', level: 'front' };
+    if (el.classList.contains('toc-heading')) return { label: 'Contents', level: 'front' };
+
+    let label = el.textContent;
+    if (el.classList.contains('milestone-company')) {
+      const copy = el.cloneNode(true);
+      copy.querySelectorAll('.milestone-period').forEach((period) => period.remove());
+      label = copy.textContent;
+    }
+
+    let level = 'sub';
+    if (el.classList.contains('chapter-title')) level = 'chapter';
+    else if (el.classList.contains('entry-title')) level = 'entry';
+
+    return { label: label.trim(), level };
+  }
+
+  function railPoints() {
+    const points = [];
+
+    state.pages.forEach((page, index) => {
+      page.el.querySelectorAll(RAIL_POINTS).forEach((el) => {
+        const point = railPoint(el);
+        if (point.label) {
+          points.push({ label: point.label, level: point.level, page: index });
+        }
+      });
+    });
+
+    return points;
   }
 
   function buildRail() {
-    if (!rail) return;
+    if (!rail || !railScroll) return;
 
-    rail.textContent = '';
+    hideRailTip();
+    railScroll.textContent = '';
     railLinks.length = 0;
 
-    railEntries().forEach((entry) => {
-      if (!state.slugs.has(entry.slug)) return;
-
+    railPoints().forEach((point) => {
       const link = doc.createElement('a');
-      link.className = 'rail-link' + (entry.chapter ? ' rail-link--chapter' : '');
-      link.href = '#' + entry.slug;
+      link.className = 'rail-link rail-link--' + point.level;
+      link.href = '#/p/' + (point.page + 1);
+      link.dataset.page = String(point.page);
+      link.dataset.label = point.label;
       link.draggable = false;
-      link.dataset.slug = entry.slug;
-      link.dataset.label = entry.label;
-      link.setAttribute('aria-label', entry.label);
+      link.setAttribute('aria-label', point.label);
 
       const dash = doc.createElement('span');
       dash.className = 'rail-dash';
       link.appendChild(dash);
 
-      rail.appendChild(link);
+      railScroll.appendChild(link);
       railLinks.push(link);
     });
 
     rail.hidden = railLinks.length === 0;
-    updateRail(state.current);
+    if (!railLinks.length) return;
+
+    railScroll.scrollTop = 0;
+    updateRail(state.current, false);
+    updateRailEdges();
   }
 
-  function updateRail(index) {
+  function updateRail(index, animate = true) {
     if (!railLinks.length) return;
 
     // In two-page mode the page's right-hand leaf belongs to the same spread,
-    // so a section opening there is already in view.
+    // so a section opening there is already in view. Several short pieces can
+    // share a page; the first one represents that page.
     const reach = index + (state.twoUp ? 1 : 0);
     let active = null;
     let activePage = -1;
 
     railLinks.forEach((link) => {
-      const at = state.slugs.get(link.dataset.slug);
-      if (at === undefined || at > reach) return;
-      // Several short entries can share one page; the page is the unit the
-      // reader sees, so keep the first of them rather than the last.
-      if (at > activePage) {
+      const at = Number(link.dataset.page);
+      if (at <= reach && at > activePage) {
         active = link;
         activePage = at;
       }
@@ -652,6 +672,75 @@
       if (current) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
     });
+
+    if (active) revealRailLink(active, animate);
+  }
+
+  // Keep the active dash inside the fixed-height rail without centring it on
+  // every page turn: move only when it would otherwise fall off an edge.
+  function revealRailLink(link, animate) {
+    if (!railScroll) return;
+
+    const box = railScroll.getBoundingClientRect();
+    const rect = link.getBoundingClientRect();
+    const margin = 18;
+    let target = null;
+
+    if (rect.top < box.top + margin) {
+      target = railScroll.scrollTop - (box.top + margin - rect.top);
+    } else if (rect.bottom > box.bottom - margin) {
+      target = railScroll.scrollTop + (rect.bottom - (box.bottom - margin));
+    }
+    if (target === null) return;
+
+    target = Math.max(0, Math.min(target, railScroll.scrollHeight - railScroll.clientHeight));
+    if (Math.abs(target - railScroll.scrollTop) < 0.5) return;
+
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (animate && !reduce) {
+      railScroll.scrollTo({ top: target, behavior: 'smooth' });
+    } else {
+      railScroll.scrollTop = target;
+    }
+
+    updateRailEdges();
+  }
+
+  function updateRailEdges() {
+    if (!railScroll) return;
+
+    const atTop = railScroll.scrollTop <= 1;
+    const atBottom = railScroll.scrollTop + railScroll.clientHeight >= railScroll.scrollHeight - 1;
+    railScroll.classList.toggle('is-at-top', atTop);
+    railScroll.classList.toggle('is-at-bottom', atBottom);
+  }
+
+  function positionRailTip(link) {
+    if (!railTip || !link) return;
+
+    const dash = link.querySelector('.rail-dash');
+    const line = link.getBoundingClientRect();
+    const mark = dash ? dash.getBoundingClientRect() : line;
+
+    railTip.style.top = (line.top + line.height / 2) + 'px';
+    railTip.style.right = Math.max(8, window.innerWidth - mark.left + 7) + 'px';
+  }
+
+  function showRailTip(link) {
+    if (!railTip || !link) return;
+
+    if (tipLink && tipLink !== link) tipLink.classList.remove('is-tip');
+    tipLink = link;
+    link.classList.add('is-tip');
+    railTip.textContent = link.dataset.label;
+    railTip.classList.add('is-visible');
+    positionRailTip(link);
+  }
+
+  function hideRailTip() {
+    if (tipLink) tipLink.classList.remove('is-tip');
+    tipLink = null;
+    if (railTip) railTip.classList.remove('is-visible');
   }
 
   let scrollFrame = 0;
@@ -660,6 +749,7 @@
     if (scrollFrame) return;
     scrollFrame = window.requestAnimationFrame(() => {
       scrollFrame = 0;
+      hideRailTip();
       if (!body.classList.contains('paged')) return;
       const index = indexFromScroll();
       if (index !== state.current) {
@@ -689,6 +779,7 @@
       body.classList.remove('one-up');
       html.classList.remove('has-js');
       if (rail) rail.hidden = true;
+      hideRailTip();
       if (window.console) console.error('Book pagination failed; showing the scrolling layout.', error);
     }
   }
@@ -743,8 +834,8 @@
     scrollToPage(state.slugs.get(slug), true);
   });
 
-  // On touch, a held dash shows its label; the release after a hold must not
-  // then navigate, while an ordinary tap still follows the link.
+  // The rail navigates by page index rather than slug, so poems and projects
+  // that never had an anchor can be reached too.
   if (rail) {
     let holdTimer = 0;
     let heldLink = null;
@@ -760,9 +851,60 @@
       if (!heldLink) return;
       const link = heldLink;
       heldLink = null;
-      window.setTimeout(() => link.classList.remove('is-open'), 900);
+      window.setTimeout(() => {
+        link.classList.remove('is-open');
+        if (tipLink === link) hideRailTip();
+      }, 900);
     };
 
+    rail.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('.rail-link');
+      if (!link) return;
+
+      // A click synthesized after a long press only dismisses the label.
+      if (suppressClick && event.detail !== 0) {
+        event.preventDefault();
+        event.stopPropagation();
+        suppressClick = false;
+        return;
+      }
+
+      const page = Number(link.dataset.page);
+      if (!Number.isFinite(page)) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+      hideRailTip();
+      scrollToPage(page, true);
+    });
+
+    rail.addEventListener('pointerover', (event) => {
+      if (event.pointerType === 'touch') return;
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('.rail-link');
+      if (link) showRailTip(link);
+    });
+
+    rail.addEventListener('pointerout', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('.rail-link');
+      if (!link) return;
+      if (event.relatedTarget instanceof Node && link.contains(event.relatedTarget)) return;
+      if (tipLink === link) hideRailTip();
+    });
+
+    rail.addEventListener('focusin', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('.rail-link');
+      if (link && link.matches(':focus-visible')) showRailTip(link);
+    });
+
+    rail.addEventListener('focusout', () => hideRailTip());
+
+    // On touch, a held dash shows its label; the release after a hold must not
+    // then navigate, while an ordinary tap still follows the link.
     rail.addEventListener('pointerdown', (event) => {
       if (event.pointerType === 'mouse') return;
       if (!(event.target instanceof Element)) return;
@@ -771,12 +913,14 @@
 
       cancelHold();
       rail.querySelectorAll('.rail-link.is-open').forEach((open) => open.classList.remove('is-open'));
+      hideRailTip();
       heldLink = null;
       suppressClick = false;
 
       holdTimer = window.setTimeout(() => {
         heldLink = link;
         link.classList.add('is-open');
+        showRailTip(link);
         suppressClick = true;
       }, 350);
     });
@@ -791,14 +935,16 @@
       if (heldLink) event.preventDefault();
     });
 
-    rail.addEventListener('click', (event) => {
-      // `detail` is 0 for keyboard activation and scripted clicks; only a
-      // touch-generated click should be swallowed after a hold.
-      if (!suppressClick || event.detail === 0) return;
-      event.preventDefault();
-      event.stopPropagation();
-      suppressClick = false;
-    }, true);
+    if (railScroll) {
+      railScroll.addEventListener('scroll', () => {
+        updateRailEdges();
+
+        // Keyboard focus may have just been scrolled into view; keep its label
+        // with it. A wheel or drag over the rail dismisses the hover label.
+        if (tipLink && document.activeElement === tipLink) positionRailTip(tipLink);
+        else hideRailTip();
+      }, { passive: true });
+    }
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });

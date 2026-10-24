@@ -822,17 +822,16 @@ body.one-up .spread::after {
 
 /* ----------------------------- Section rail ------------------------------ */
 
-/* One dash per contents entry, grouped by chapter. The rail only exists once
-   the paginator has built the book; with JS off the native scrollbar remains. */
+/* A fixed-height minimap of every titled part of the book. When the list is
+   longer than the frame the rail scrolls; its scrollbar stays hidden and the
+   edges fade while there is more to see. */
 .scroll-rail {
   position: fixed;
   top: 50%;
   right: clamp(0.55rem, 1.3vw, 1.15rem);
   z-index: 20;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.3rem;
+  height: min(56vh, 420px);
+  height: min(56svh, 420px);
   transform: translateY(-50%);
   user-select: none;
   -webkit-touch-callout: none;
@@ -842,11 +841,44 @@ body.one-up .spread::after {
   display: none;
 }
 
+.rail-scroll {
+  --fade-top: transparent;
+  --fade-bottom: transparent;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  padding-block: 0.35rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: 18px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-mask-image: linear-gradient(to bottom, var(--fade-top) 0, #000 14px, #000 calc(100% - 14px), var(--fade-bottom) 100%);
+  mask-image: linear-gradient(to bottom, var(--fade-top) 0, #000 14px, #000 calc(100% - 14px), var(--fade-bottom) 100%);
+}
+
+.rail-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.rail-scroll.is-at-top {
+  --fade-top: #000;
+}
+
+.rail-scroll.is-at-bottom {
+  --fade-bottom: #000;
+}
+
 .rail-link {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  flex: 0 0 auto;
   width: 1.55rem;
   height: 0.72rem;
   color: inherit;
@@ -868,59 +900,79 @@ body.one-up .spread::after {
   outline: none;
 }
 
-/* The air between groups carries the chapter structure. */
+/* The air between chapters carries the book's structure. */
 .rail-link--chapter {
-  margin-top: 0.45rem;
+  margin-top: 0.5rem;
 }
 
 .rail-link--chapter:first-child {
   margin-top: 0;
 }
 
+/* Four weights: front matter, chapter, entry, and the pieces inside an entry. */
+.rail-link--front {
+  --dash: 0.55rem;
+  --dash-open: 0.8rem;
+}
+
+.rail-link--chapter {
+  --dash: 1.3rem;
+  --dash-open: 1.55rem;
+}
+
+.rail-link--entry {
+  --dash: 0.95rem;
+  --dash-open: 1.25rem;
+}
+
+.rail-link--sub {
+  --dash: 0.65rem;
+  --dash-open: 0.9rem;
+}
+
 .rail-dash {
   display: block;
-  width: 0.9rem;
+  width: var(--dash);
   height: 2px;
   border-radius: 999px;
-  background: rgba(44, 24, 16, 0.3);
+  background: rgba(44, 24, 16, 0.28);
   transition: width 0.18s ease, background-color 0.18s ease;
 }
 
+.rail-link--front .rail-dash {
+  background: rgba(44, 24, 16, 0.24);
+}
+
 .rail-link--chapter .rail-dash {
-  width: 1.35rem;
-  background: rgba(44, 24, 16, 0.48);
+  background: rgba(44, 24, 16, 0.52);
 }
 
-.rail--hoverable .rail-link:not(.is-active):hover .rail-dash {
-  width: 1.55rem;
+.rail-link--entry .rail-dash {
+  background: rgba(44, 24, 16, 0.38);
+}
+
+.rail-link--sub .rail-dash {
+  background: rgba(44, 24, 16, 0.28);
+}
+
+.rail-link.is-active .rail-dash,
+.rail-link.is-tip .rail-dash,
+.rail-link.is-open .rail-dash,
+.rail-link:focus-visible .rail-dash {
+  width: var(--dash-open);
   background: var(--accent);
-}
-
-.rail-link:not(.is-active):focus-visible .rail-dash,
-.rail-link:not(.is-active).is-open .rail-dash {
-  width: 1.55rem;
-  background: var(--accent);
-}
-
-.rail-link.is-active .rail-dash {
-  width: 1.6rem;
-  background: var(--accent);
-}
-
-.rail-link--chapter.is-active .rail-dash {
-  width: 1.85rem;
 }
 
 .rail-link:focus-visible .rail-dash {
   box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.18);
 }
 
-/* A small paper tag naming the destination, set to the left of the rail. */
-.rail-link::after {
-  content: attr(data-label);
-  position: absolute;
-  top: 50%;
-  right: 2rem;
+/* The label is a sibling of the scroller, so no overflow can clip it. */
+.rail-tip {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 30;
   padding: 0.2rem 0.55rem;
   border: 1px solid rgba(139, 69, 19, 0.28);
   border-radius: 2px;
@@ -931,25 +983,16 @@ body.one-up .spread::after {
   line-height: 1.4;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-50%) translateX(0.18rem);
-  transition: opacity 0.12s ease, transform 0.12s ease, visibility 0s linear 0.12s;
+  transform: translateY(-50%);
+  transition: opacity 0.12s ease, visibility 0s linear 0.12s;
 }
 
-.rail--hoverable .rail-link:hover::after {
+.rail-tip.is-visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(-50%);
-  transition-delay: 0s;
-}
-
-.rail-link:focus-visible::after,
-.rail-link.is-open::after {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-50%);
   transition-delay: 0s;
 }
 
@@ -959,7 +1002,7 @@ body.one-up .spread::after {
   }
 
   .rail-dash,
-  .rail-link::after {
+  .rail-tip {
     transition: none;
   }
 }
@@ -984,7 +1027,8 @@ body.one-up .spread::after {
 
   /* The rail is an on-screen control, not part of the printed book. */
   .scroll-rail,
-  .scroll-rail[hidden] {
+  .scroll-rail[hidden],
+  .rail-tip {
     display: none !important;
   }
 
@@ -1032,6 +1076,11 @@ body.one-up .spread::after {
      without crowding the page. */
   .scroll-rail {
     right: 0.4rem;
+    height: min(50vh, 360px);
+    height: min(50svh, 360px);
+  }
+
+  .rail-scroll {
     gap: 0.22rem;
   }
 
@@ -1044,16 +1093,7 @@ body.one-up .spread::after {
     margin-top: 0.4rem;
   }
 
-  .rail-dash {
-    width: 0.78rem;
-  }
-
-  .rail-link--chapter .rail-dash {
-    width: 1.1rem;
-  }
-
-  .rail-link::after {
-    right: 1.9rem;
+  .rail-tip {
     font-size: 0.78rem;
   }
 }

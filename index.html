@@ -804,8 +804,12 @@ but look in the sadistic eyes of life and smile then say,
     <div id="book"></div>
 
     <!-- The section rail that stands in for the scrollbar; script.js fills it
-         from the contents and reveals it once the book is paginated. -->
-    <nav id="scroll-rail" class="scroll-rail" aria-label="Section navigation" hidden></nav>
+         with every titled part of the book and reveals it once paginated. The
+         label lives outside the scroller so its overflow cannot clip it. -->
+    <nav id="scroll-rail" class="scroll-rail" aria-label="Section navigation" hidden>
+      <div id="rail-scroll" class="rail-scroll"></div>
+    </nav>
+    <div id="rail-tip" class="rail-tip" aria-hidden="true"></div>
   </main>
 </body>
 

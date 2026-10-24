@@ -70,6 +70,26 @@ The company develops B2B and B2C software solutions, specialising in GST and tax
 # Predilections
 *Borderline addictions.*
 
+## Physiology
+
+*A physical outlet for the drive to excel, an excuse to fight off the degeneration of aging.*
+
+* Calisthenics
+* Table Tennis
+* Swimming *(On the horizon)*
+
+## Peregrination
+
+*Indulging in unfamiliar chaos, pursuing proximal peace.*
+From the stillness of tranquil mountains to the chaos of tumultuous cities, I am a perpetual wanderer, forever at ease.
+
+## Poiesis
+*Artifacts of curiosity.*
+
+Building solely for the sheer "high" of creation in the moments when an abstract concept becomes a physical codebase.
+
+*(List your side projects here)*
+
 ## Philology
 
 *An amusement found in playing with the intricacies of languages.*
@@ -387,26 +407,6 @@ but look in the sadistic eyes of life and smile then say,
 'just a minute, shortly I'll be off with you'.
 
 
-
-## Peregrination
-
-*Indulging in unfamiliar chaos, pursuing proximal peace.*
-From the stillness of tranquil mountains to the chaos of tumultuous cities, I am a perpetual wanderer, forever at ease.
-
-## Poiesis
-*Artifacts of curiosity.*
-
-Building solely for the sheer "high" of creation in the moments when an abstract concept becomes a physical codebase.
-
-*(List your side projects here)*
-
-## Physiology
-
-*A physical outlet for the drive to excel, an excuse to fight off the degeneration of aging.*
-
-* Calisthenics
-* Table Tennis
-* Swimming *(On the horizon)*
 
 ## Phronesis
 

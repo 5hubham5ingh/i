@@ -80,7 +80,7 @@
     });
 
     // Every poem after the first opens on a fresh left page; the first one runs
-    // on from the Philology heading.
+    // on from the entry heading.
     root.querySelectorAll('article.poem').forEach((poem, i) => {
       if (i > 0) poem.classList.add('poem--verso');
     });
@@ -179,7 +179,7 @@
         }
         if (cls.contains('poem') || cls.contains('milestone')) {
           // Poems open on a fresh left page (all but the first, which follows
-          // the Philology heading); a stanza that runs long still flows over.
+          // the entry heading); a stanza that runs long still flows over.
           const verso = cls.contains('poem--verso');
           return push({
             node: el,

@@ -414,6 +414,61 @@ a:focus-visible {
   margin: 0;
 }
 
+/* ----------------------- Poem illustrations ------------------------------ */
+
+/* The drawings are cut out of their source paper and sit directly on the
+   page: no frame, tape, or shadow. They follow the poem and can take a whole
+   leaf when there is not room beside the text. */
+.illustration {
+  margin: 1.5rem 0 0;
+  text-align: center;
+}
+
+.illustration img {
+  display: block;
+  /* --ar is the drawing's width / height, set inline. It reserves the right
+     amount of vertical space before the image has loaded, so pagination does
+     not measure a zero-height replacement. */
+  width: min(100%, calc((100vh - 7rem) * var(--ar)));
+  width: min(100%, calc((100svh - 7rem) * var(--ar)));
+  max-width: 100%;
+  max-height: calc(100svh - 7rem);
+  aspect-ratio: var(--ar);
+  height: auto;
+  margin: 0 auto;
+}
+
+/* When the drawing is the only thing on a leaf, centre it on the page. */
+.page-content:has(> .illustration:only-child) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.illustration:only-child {
+  margin: 0;
+}
+
+/* A continuous-tone wash is exported as ink-to-white so multiply can drop the
+   white into the parchment and keep the page grain visible. The current set has
+   no wash; Bee uses the normal line-art cut-out. */
+.illustration--wash img {
+  mix-blend-mode: multiply;
+}
+
+/* A poem that overflows onto a recto can keep its plate there when the paper
+   left below the text is useful. The paginator supplies the measured height. */
+.illustration--inline {
+  margin-top: 1.5rem;
+}
+
+.illustration--inline img {
+  width: calc(var(--inline-h) * var(--ar));
+  height: var(--inline-h);
+  max-width: 100%;
+  max-height: none;
+}
+
 /* ----------------------------- Plates ----------------------------------- */
 
 /* A photograph is a print on paper: a pale frame, thicker at the foot, taped
@@ -1146,6 +1201,13 @@ body.one-up .spread::after {
 
   .plate img {
     filter: none;
+  }
+
+  .illustration img {
+    width: auto;
+    max-width: 100%;
+    max-height: 8.5in;
+    aspect-ratio: auto;
   }
 
   a {

@@ -6,6 +6,10 @@
 //
 //   * a chapter's title always lands on a left-hand page, so a blank right page
 //     is inserted whenever the flow would otherwise strand a title on the right;
+//   * a poem's illustration faces a poem that ends on a verso, shares the recto
+//     when a poem overflows but leaves useful paper, or moves to the next verso
+//     when the remaining space is too small; Wordsmith's plate sits under the
+//     Philology heading;
 //   * anything taller than one page (a long poem, a long milestone card) is
 //     split across pages at a safe boundary;
 //   * the spreads are stacked in the document and the page scrolls through
@@ -84,6 +88,24 @@
     root.querySelectorAll('article.poem').forEach((poem, i) => {
       if (i > 0) poem.classList.add('poem--verso');
     });
+
+    // A poem's drawing is placed with the poem rather than left as trailing
+    // content. Mark only figures that immediately follow a poem; the
+    // Physiology illustration stays in the ordinary flow.
+    root.querySelectorAll('article.poem + .illustration').forEach((figure) => {
+      figure.classList.add('illustration--poem');
+    });
+
+    // Wordsmith is the deliberate exception: its plate sits under the
+    // Philology heading, before the poem.
+    const wordsmith = root.querySelector('article.poem[data-slug="poem-1"]');
+    if (wordsmith) {
+      const plate = wordsmith.nextElementSibling;
+      if (plate && plate.classList.contains('illustration--poem')) {
+        plate.classList.add('illustration--before-poem');
+        wordsmith.parentNode.insertBefore(plate, wordsmith);
+      }
+    }
 
     root.querySelectorAll('.plates').forEach((plates) => {
       const figures = Array.from(plates.children);
@@ -188,6 +210,16 @@
             pageSide: verso ? 'left' : undefined
           });
         }
+        if (cls.contains('illustration--poem')) {
+          // Placement is decided after the poem has flowed: facing recto,
+          // inline in the remaining recto space, or the next verso if the
+          // remaining space is too small. Wordsmith is pinned before its poem.
+          return push({
+            node: el,
+            poemPlate: true,
+            beforePoem: cls.contains('illustration--before-poem')
+          });
+        }
         if (cls.contains('project')) {
           // Projects flow on from the Poiesis introduction and from one
           // another; a gallery that runs long simply continues overleaf.
@@ -288,6 +320,88 @@
 
     // Below this much type, a page reads as blank paper.
     const SPARSE = 0.5;
+
+    // Vertical paper left below the last block on a page, in pixels. The page
+    // content has top/bottom padding, so an empty page is not a full box.
+    const remaining = (page) => {
+      const content = page.content;
+      const height = content.clientHeight;
+      if (!height) return 0;
+
+      const style = getComputedStyle(content);
+      const bottomPadding = parseFloat(style.paddingBottom);
+      if (!content.childElementCount) {
+        return Math.max(0, height - parseFloat(style.paddingTop) - bottomPadding);
+      }
+
+      const top = content.getBoundingClientRect().top;
+      let bottom = 0;
+      Array.from(content.children).forEach((child) => {
+        bottom = Math.max(bottom, child.getBoundingClientRect().bottom - top);
+      });
+      return Math.max(0, height - bottom - bottomPadding);
+    };
+
+    // A poem plate can share the overflowing recto if the remaining paper is
+    // genuinely useful. It is scaled to that space rather than forced to full
+    // page height. Below this threshold it moves to the next verso instead.
+    const INLINE_PLATE_MIN_H = 0.35;
+    const INLINE_PLATE_MIN_W = 0.32;
+    const PLATE_GAP = 24;
+
+    const inlinePoemPlate = (page, node, requiredSide = 'right') => {
+      if (page.blank) return false;
+      if (!state.twoUp && requiredSide) return false;
+      if (requiredSide && page.side !== requiredSide) return false;
+
+      const content = page.content;
+      const height = content.clientHeight;
+      const available = remaining(page) - PLATE_GAP;
+      if (!height || available < height * INLINE_PLATE_MIN_H) return false;
+
+      const img = node.querySelector('img');
+      if (!img) return false;
+      const ratio = Number(img.style.getPropertyValue('--ar')) ||
+        (img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 0);
+      if (!ratio) return false;
+
+      const style = getComputedStyle(content);
+      const innerWidth = content.clientWidth -
+        parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const minHeight = height * INLINE_PLATE_MIN_H;
+      let plateHeight = Math.min(available, innerWidth / ratio);
+      if (plateHeight < minHeight ||
+          plateHeight * ratio < innerWidth * INLINE_PLATE_MIN_W) {
+        return false;
+      }
+
+      node.classList.add('illustration--inline');
+      img.style.setProperty('--inline-h', plateHeight + 'px');
+      content.appendChild(node);
+
+      // Trim to the real measured space: the content's own padding and the
+      // figure's top margin are not part of `remaining()`.
+      let overflow = content.scrollHeight - content.clientHeight;
+      if (overflow > 1) {
+        plateHeight -= overflow + 4;
+        if (plateHeight < minHeight ||
+            plateHeight * ratio < innerWidth * INLINE_PLATE_MIN_W) {
+          content.removeChild(node);
+          node.classList.remove('illustration--inline');
+          img.style.removeProperty('--inline-h');
+          return false;
+        }
+        img.style.setProperty('--inline-h', plateHeight + 'px');
+      }
+
+      if (content.scrollHeight > content.clientHeight + 1) {
+        content.removeChild(node);
+        node.classList.remove('illustration--inline');
+        img.style.removeProperty('--inline-h');
+        return false;
+      }
+      return true;
+    };
 
     // Split a container across as many pages as it needs, breaking between its
     // children. Consecutive list items are re-wrapped in a list per page.
@@ -404,6 +518,43 @@
     items.forEach((item, index) => {
       const next = items[index + 1];
       let page = current();
+
+      if (item.poemPlate) {
+        // Wordsmith's plate belongs on the Philology title page, below the
+        // heading. If it cannot share that page, fall back to a recto.
+        if (item.beforePoem) {
+          if (inlinePoemPlate(page, item.node, null)) return;
+          if (filled(page)) page = openPage();
+          if (state.twoUp) {
+            while (page.side !== 'right') {
+              page.blank = true;
+              page = openPage();
+            }
+          }
+          page.content.appendChild(item.node);
+          return;
+        }
+
+        // If the poem ended on a recto, share that page when the remaining
+        // paper is useful. Otherwise take the full next verso.
+        if (state.twoUp && page.side === 'right' && !page.blank) {
+          if (inlinePoemPlate(page, item.node)) return;
+          if (filled(page)) page = openPage();
+          page.content.appendChild(item.node);
+          return;
+        }
+
+        // The poem ended on a verso: the plate faces it from the recto.
+        if (filled(page)) page = openPage();
+        if (state.twoUp) {
+          while (page.side !== 'right') {
+            page.blank = true;
+            page = openPage();
+          }
+        }
+        page.content.appendChild(item.node);
+        return;
+      }
 
       if (item.breakBefore || item.pageSide) {
         if (filled(page)) page = openPage();

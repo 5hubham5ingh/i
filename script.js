@@ -13,7 +13,10 @@
 //   * anything taller than one page (a long poem, a long milestone card) is
 //     split across pages at a safe boundary;
 //   * the spreads are stacked in the document and the page scrolls through
-//     them, snapping one spread (or one page, on a phone) at a time.
+//     them, snapping one spread at a time. On a portrait screen the two pages
+//     of a spread are stacked top and bottom so the whole spread still fits
+//     one screen; only on a narrow landscape screen does a page fill the
+//     screen on its own.
 //
 // If anything goes wrong, the script bows out and the manuscript is revealed as
 // the ordinary scrolling layout.
@@ -40,7 +43,11 @@
     spreads: [],
     slugs: new Map(),
     current: 0,
-    twoUp: false
+    twoUp: false,
+    stacked: false,
+    // True whenever a whole spread is on screen (side by side or stacked),
+    // so one scroll step always advances a spread rather than a leaf.
+    spreadView: false
   };
 
   // ------------------------------------------------------------- geometry --
@@ -51,13 +58,21 @@
     const vw = html.clientWidth;
     const vh = window.innerHeight;
     const twoUp = vw >= 1000 && vw / vh >= 1;
+    // Portrait: keep the spread but stack its two pages, so both stay visible
+    // on one screen. A narrow landscape screen (a phone on its side) is the
+    // only place where one page still fills the screen by itself.
+    const stacked = !twoUp && vh > vw;
+    const oneUp = !twoUp && !stacked;
     const width = twoUp ? Math.round(vw / 2) : vw;
 
     html.style.setProperty('--page-w', width + 'px');
     // Lets the title page scale with the paper so it always fits one page.
     html.style.setProperty('--page-scale', String(Math.round((width / 560) * 1000) / 1000));
     state.twoUp = twoUp;
-    body.classList.toggle('one-up', !twoUp);
+    state.stacked = stacked;
+    state.spreadView = twoUp || stacked;
+    body.classList.toggle('stacked', stacked);
+    body.classList.toggle('one-up', oneUp);
   }
 
   // ------------------------------------------------------ prepare content --
@@ -90,20 +105,37 @@
     });
 
     // A poem's drawing is placed with the poem rather than left as trailing
-    // content. Mark only figures that immediately follow a poem; the
-    // Physiology illustration stays in the ordinary flow.
+    // content. In a stacked portrait spread it sits between the poem's title
+    // and its lines: the opening page carries the title and drawing, and the
+    // poem text starts on the next page. In the side-by-side layout the figure
+    // stays a sibling and faces the poem.
     root.querySelectorAll('article.poem + .illustration').forEach((figure) => {
+      if (state.stacked) {
+        const poem = figure.previousElementSibling;
+        const title = poem && poem.querySelector('.poem-title');
+        if (title) title.after(figure);
+        return;
+      }
       figure.classList.add('illustration--poem');
     });
 
-    // Wordsmith is the deliberate exception: its plate sits under the
-    // Philology heading, before the poem.
-    const wordsmith = root.querySelector('article.poem[data-slug="poem-1"]');
-    if (wordsmith) {
-      const plate = wordsmith.nextElementSibling;
-      if (plate && plate.classList.contains('illustration--poem')) {
-        plate.classList.add('illustration--before-poem');
-        wordsmith.parentNode.insertBefore(plate, wordsmith);
+    if (state.stacked) {
+      // The Physiology drawing follows its heading rather than the list, so
+      // the section opens with its title and drawing before the prose.
+      const heading = root.querySelector('.entry-title[data-slug="physiology"]');
+      const entry = heading && heading.closest('.entry');
+      const figure = entry && Array.from(entry.children).find((child) => child.classList.contains('illustration'));
+      if (figure) heading.after(figure);
+    } else {
+      // Wordsmith is the deliberate exception in the side-by-side layout: its
+      // plate sits under the Philology heading, before the poem.
+      const wordsmith = root.querySelector('article.poem[data-slug="poem-1"]');
+      if (wordsmith) {
+        const plate = wordsmith.nextElementSibling;
+        if (plate && plate.classList.contains('illustration--poem')) {
+          plate.classList.add('illustration--before-poem');
+          wordsmith.parentNode.insertBefore(plate, wordsmith);
+        }
       }
     }
 
@@ -183,6 +215,7 @@
             node: el,
             breakBefore: true,
             pageSide: 'left',
+            stackTop: true,
             slug: chapter ? chapter.getAttribute('data-slug') : null
           });
           if (!closing) pendingBreak = true;                   // the title page stands alone
@@ -199,15 +232,42 @@
           // items are re-wrapped in their list even when they all fit one page.
           return push({ node: el, breakBefore: true, pageSide: 'right', alwaysPour: true, slug: 'contents' });
         }
-        if (cls.contains('poem') || cls.contains('milestone')) {
+        if (cls.contains('milestone')) {
+          return push({ node: el, splittable: true });
+        }
+        if (cls.contains('poem')) {
           // Poems open on a fresh left page (all but the first, which follows
           // the entry heading); a stanza that runs long still flows over.
           const verso = cls.contains('poem--verso');
+          if (state.stacked) {
+            const previous = el.previousElementSibling;
+            const underEntry = previous &&
+              (previous.classList.contains('subsection-subtitle') ||
+                previous.classList.contains('entry-title'));
+
+            // In portrait the opening page carries only the title and drawing;
+            // the poem itself starts on the page below. When the poem opens a
+            // section, the opening takes the lower half beside the heading so
+            // the title and drawing stay together without leaving a blank page.
+            const opening = el.cloneNode(true);
+            opening.querySelectorAll('.poem-line').forEach((line) => line.remove());
+            push({
+              node: opening,
+              breakBefore: underEntry || verso,
+              pageSide: !underEntry && verso ? 'left' : undefined,
+              stackTop: !underEntry
+            });
+
+            const body = el.cloneNode(true);
+            body.querySelectorAll('.poem-title, .illustration').forEach((node) => node.remove());
+            return push({ node: body, splittable: true, breakBefore: true });
+          }
           return push({
             node: el,
             splittable: true,
             breakBefore: verso,
-            pageSide: verso ? 'left' : undefined
+            pageSide: verso ? 'left' : undefined,
+            stackTop: true
           });
         }
         if (cls.contains('illustration--poem')) {
@@ -556,14 +616,25 @@
         return;
       }
 
-      if (item.breakBefore || item.pageSide) {
+      if (item.breakBefore || item.pageSide || (state.stacked && item.stackTop)) {
         if (filled(page)) page = openPage();
       }
       // Pin the block to the side it belongs on, padding with a blank page when
-      // the flow has arrived on the wrong one. Only a two-page spread has sides;
-      // stacked one-up pages would just show a blank screen, so break instead.
+      // the flow has arrived on the wrong one. This is the side-by-side rule;
+      // in portrait only chapters and poems are pinned, to the top, while an
+      // entry title such as Philology may fill a lower half.
       if (item.pageSide && state.twoUp) {
         while (page.side !== item.pageSide) {
+          page.blank = true;
+          page = openPage();
+        }
+      }
+      // A chapter title and every poem opening start at the top of a portrait
+      // spread. A lower half that already holds content is kept and the block
+      // moves to the next spread rather than blanking it.
+      if (state.stacked && item.stackTop && page.side !== 'left') {
+        if (filled(page)) page = openPage();
+        while (page.side !== 'left') {
           page.blank = true;
           page = openPage();
         }
@@ -667,10 +738,10 @@
 
     hideRailTip();
     let i = Math.max(0, Math.min(index, count - 1));
-    if (state.twoUp) i -= i % 2;                             // a spread is the unit
+    if (state.spreadView) i -= i % 2;                        // a spread is the unit
     state.current = i;
 
-    const target = state.twoUp ? spreadFor(i).el : state.pages[i].el;
+    const target = state.spreadView ? spreadFor(i).el : state.pages[i].el;
     if (smooth) {
       target.scrollIntoView({ block: 'start', behavior: 'smooth' });
     } else {
@@ -687,7 +758,7 @@
   }
 
   function step(direction) {
-    const delta = state.twoUp ? 2 : 1;
+    const delta = state.spreadView ? 2 : 1;
     scrollToPage(state.current + direction * delta, true);
   }
 
@@ -701,9 +772,10 @@
     return null;
   }
 
-  // Which spread (or, on a phone, which page) owns the middle of the viewport.
+  // Which spread (or, on a narrow landscape screen, which page) owns the middle
+  // of the viewport.
   function indexFromScroll() {
-    const elements = state.twoUp
+    const elements = state.spreadView
       ? state.spreads.map((spread) => spread.el)
       : state.pages.map((page) => page.el);
     const middle = window.innerHeight / 2;
@@ -713,7 +785,7 @@
       if (el.getBoundingClientRect().top <= middle) best = i;
     });
 
-    return state.twoUp ? best * 2 : best;
+    return state.spreadView ? best * 2 : best;
   }
 
   function slugOfCurrentPage() {
@@ -802,10 +874,9 @@
   function updateRail(index, animate = true) {
     if (!railLinks.length) return;
 
-    // In two-page mode the page's right-hand leaf belongs to the same spread,
-    // so a section opening there is already in view. Several short pieces can
-    // share a page; the first one represents that page.
-    const reach = index + (state.twoUp ? 1 : 0);
+    // Both pages of a spread are in view (side by side or stacked), so a
+    // section opening on the second leaf is already visible.
+    const reach = index + (state.spreadView ? 1 : 0);
     let active = null;
     let activePage = -1;
 
@@ -928,6 +999,7 @@
       html.classList.remove('paged');
       body.classList.remove('paged');
       body.classList.remove('one-up');
+      body.classList.remove('stacked');
       html.classList.remove('has-js');
       if (rail) rail.hidden = true;
       hideRailTip();

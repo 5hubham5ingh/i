@@ -48,17 +48,24 @@ this document.
   tonal range, toned to the same book ink.
 - **Keep the figure directly after the piece in `index.html`.** This is the
   source order; it is not its final printed position.
-- **A poem's illustration is placed according to the poem's page flow.**
-  The paginator detects `article.poem + .illustration`, adds
-  `.illustration--poem`, and then:
+- **A poem's illustration is placed with the poem.**
+  In the side-by-side layout the paginator detects
+  `article.poem + .illustration`, adds `.illustration--poem`, and then:
   - if the poem ends on a verso, the plate takes the facing recto;
   - if the poem overflows onto a recto and enough paper remains, the plate is
     scaled into that remaining recto space below the poem;
   - if the remaining recto space is too small, the plate takes the next verso.
-  The Physiology illustration stays in ordinary flow after its list.
-- **Wordsmith is the exception.** Its plate sits inline under the Philology
-  heading on the title page, before the poem. The poem then starts on the next
-  available page.
+  In a stacked portrait spread the paginator instead moves the figure inside
+  the poem. The opening page carries the title and drawing, and the poem text
+  starts on the next page. When the poem opens a section (for example Wordsmith
+  under Philology), the opening takes the lower half beside the section heading,
+  so the title and drawing stay together without leaving an empty half-spread.
+  The Physiology illustration likewise moves between its heading and the
+  subtitle/list in portrait; in the side-by-side layout it stays in ordinary
+  flow after its list.
+- **Wordsmith is the exception in the side-by-side layout.** Its plate sits
+  inline under the Philology heading on the title page, before the poem. In
+  portrait it follows the poem's own title like every other poem.
 - **Allow a full book page.** A plate alone on a page is centred. The inline
   case sets a measured `--inline-h` so it occupies only the remaining space.
 - **Do not remove `--ar` from a plate.** The paginator uses it to choose between
@@ -364,10 +371,12 @@ Missing source art: none. Every poem now has an illustration.
    after that poem's closing `</article>`; for Physiology, after the list inside
    the Physiology entry. Use `class="illustration illustration--wash"` for a
    wash, and plain `class="illustration"` otherwise. Do not add
-   `illustration--poem` by hand; the paginator adds it to figures immediately
-   following a poem and uses it to choose recto, inline, or next-verso
-   placement. The Wordsmith figure is also detected by its `poem-1` slug and
-   moved before the poem in the paginated clone.
+   `illustration--poem` by hand; in the side-by-side layout the paginator adds
+   it to figures immediately following a poem and uses it to choose recto,
+   inline, or next-verso placement. In a stacked portrait spread the paginator
+   moves the same figure inside the poem after the title (and the Physiology
+   figure after its heading). The Wordsmith figure is also detected by its
+   `poem-1` slug and moved before the poem in the side-by-side paginated clone.
 6. Use the current output dimensions and compute `--ar`:
    ```html
    <figure class="illustration">
@@ -422,9 +431,10 @@ CSS lives in `style.css` under **Poem illustrations**:
 .illustration img {
   display: block;
   width: min(100%, calc((100vh - 7rem) * var(--ar)));
-  width: min(100%, calc((100svh - 7rem) * var(--ar)));
+  max-height: calc(100vh - 7rem);
+  width: min(100%, calc((var(--sheet-h) - 7rem) * var(--ar)));
   max-width: 100%;
-  max-height: calc(100svh - 7rem);
+  max-height: calc(var(--sheet-h) - 7rem);
   aspect-ratio: var(--ar);
   height: auto;
   margin: 0 auto;
@@ -475,23 +485,31 @@ The print block also resets the width fit:
 
 - The `.illustration` figure is not a `.plate`; it has no frame, tape, or
   shadow.
-- It is unsplittable. Placement depends on the poem's last page:
+- It is unsplittable. In the side-by-side layout, placement depends on the
+  poem's last page:
   - **poem ends on a verso** → full plate on the next recto;
   - **poem ends on a recto with enough paper** → inline plate, scaled to the
     measured remaining height; the code requires roughly a third of the page
     height and a third of the measure to call the space ample;
   - **poem ends on a recto with too little paper** → full plate on the next
     verso, leaving the poem's recto untouched.
+- In a stacked portrait spread the poem's opening page holds the title and
+  drawing; the poem text starts on the next page. When the poem opens a
+  section, its opening shares the spread with the section heading and sits on
+  the lower half, keeping the title and drawing together. The Physiology
+  illustration follows its heading rather than the list.
 - **Wordsmith** is placed inline under the Philology heading on the left title
-  page, before the poem; the poem follows on the next page. This is intentional,
-  not a bug.
+  page in the side-by-side layout, before the poem; the poem follows on the
+  next page. In portrait it follows the Wordsmith title like every other poem.
+  This is intentional, not a bug.
 - A plate alone on a page is vertically centred. An inline plate keeps the
   poem text above it and gets `--inline-h` from the measured space.
 - Without JS there is no pagination, so the manuscript stays linear and each
   poem plate remains after its poem. Recto/inline placement is a paged-book
   behaviour.
-- The Physiology illustration is not marked as a poem plate and remains in
-  normal flow.
+- The Physiology illustration is not marked as a poem plate: side-by-side it
+  remains in normal flow after the list, and in portrait it moves after the
+  heading.
 - Phronesis/other sections do not have illustrations yet.
 - The rail is rebuilt from titles; illustrations add no points. It should remain
   **46 points** unless titles are added or removed.
@@ -538,8 +556,10 @@ Run these after any image update:
    - The page count is reasonable (61 at 1440×900 at the time of writing, but
      may change with content).
 
-5. **Mobile / one-up**
-   - Check 390×844 and at least one landscape phone size such as 844×390.
+5. **Mobile / portrait**
+   - Check 390×844 and a portrait tablet such as 768×1024: each spread should
+     show two half-height pages, top and bottom, with no page overflow.
+   - Check a landscape phone such as 844×390: one full-height page at a time.
    - Same overflow and rail checks.
    - Images that are alone on a page should be centred and fully visible.
 
@@ -606,11 +626,14 @@ detached element that currently survives.
 
 ### The image is too large/small on a page
 
-For a full plate, the CSS caps the long edge at `100svh - 7rem` and width at the
-page content width. Portrait images become narrow; landscape images fill the
-width. Inline plates use the measured `--inline-h` instead. Change the `7rem`
-value only if the page padding changes; verify full-page and inline plates at
-short viewport heights.
+For a full plate, the base CSS caps the long edge at `--sheet-h - 7rem`; a
+stacked portrait figure is capped at `--sheet-h - 8rem` so it still fits under
+the poem title. `--sheet-h` is `100svh` in the side-by-side and one-up modes and
+`50svh` in a stacked portrait spread. Width is capped at the page content
+width. Portrait images become narrow; landscape images fill the width. Inline
+plates use the measured `--inline-h` instead. Change the `7rem`/`8rem` values
+only if the page padding changes; verify full-page and inline plates at short
+viewport heights.
 
 ### A page is blank beside an illustration
 

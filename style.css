@@ -19,6 +19,8 @@
   /* Overwritten by the paginator; the defaults keep the un-paged layout sane. */
   --page-w: 560px;
   --page-scale: 1;
+  /* Height of one paper leaf; a stacked portrait spread halves it. */
+  --sheet-h: 100svh;
 
   /* The paper surface, reused by the body and (in two-page mode) by the
      cover and the spread, so the sheets match the single-page layout. */
@@ -428,11 +430,13 @@ a:focus-visible {
   display: block;
   /* --ar is the drawing's width / height, set inline. It reserves the right
      amount of vertical space before the image has loaded, so pagination does
-     not measure a zero-height replacement. */
+     not measure a zero-height replacement. `--sheet-h` follows the page height
+     so a drawing always fits the leaf, including a stacked portrait leaf. */
   width: min(100%, calc((100vh - 7rem) * var(--ar)));
-  width: min(100%, calc((100svh - 7rem) * var(--ar)));
+  max-height: calc(100vh - 7rem);
+  width: min(100%, calc((var(--sheet-h) - 7rem) * var(--ar)));
   max-width: 100%;
-  max-height: calc(100svh - 7rem);
+  max-height: calc(var(--sheet-h) - 7rem);
   aspect-ratio: var(--ar);
   height: auto;
   margin: 0 auto;
@@ -873,6 +877,61 @@ body.one-up .page {
 
 body.one-up .spread::after {
   display: none;
+}
+
+/* -------------------- A spread stacked top and bottom -------------------- */
+
+/* On a portrait screen both pages of the spread stay on one screen: page one
+   above page two. Pagination measures the now half-height leaves, so the text
+   and pictures flow into them rather than being clipped. */
+@media screen {
+  body.stacked {
+    --sheet-h: 50svh;
+  }
+
+  body.stacked .spread {
+    flex-direction: column;
+  }
+
+  /* A fixed basis, not a growing one: the paginator measures each spread's
+     first page while it is still alone, and a growing page would measure the
+     whole spread instead of half of it. */
+  body.stacked .page {
+    flex: 0 0 50%;
+    width: 100%;
+    height: 50%;
+    min-height: 0;
+    scroll-snap-align: none;
+  }
+
+  /* A shorter leaf needs less breathing room above and below the type. */
+  body.stacked .page-content {
+    padding-block: 1.6rem;
+  }
+
+  /* The binding dots run across the stacked seam instead of down it. */
+  body.stacked .spread::after {
+    box-shadow:
+      -9px 0 0 rgba(44, 24, 16, 0.3),
+      9px 0 0 rgba(44, 24, 16, 0.3);
+  }
+
+  /* A drawing, the cover portrait, and a taped print all have to fit a
+     half-height leaf instead of a whole screen. The drawing now shares its
+     opening page with the title, so it leaves room for the title's line box
+     and margins as well. */
+  body.stacked .illustration img {
+    width: min(100%, calc((var(--sheet-h) - 8rem) * var(--ar)));
+    max-height: calc(var(--sheet-h) - 8rem);
+  }
+
+  body.stacked .page .cover-portrait {
+    width: min(100%, calc(var(--sheet-h) - 4rem));
+  }
+
+  body.stacked .plate img {
+    max-height: calc(var(--sheet-h) * 0.6);
+  }
 }
 
 /* ----------------------------- Section rail ------------------------------ */
